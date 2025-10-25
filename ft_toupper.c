@@ -6,13 +6,13 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 22:28:41 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/15 22:35:54 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/10/25 10:39:11 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_toupper(int c)
 {
-	if ( c >= 'a' && c <= 'z')
+	if (c >= 'a' && c <= 'z')
 		return (c - 32);
 	return (c);
 }

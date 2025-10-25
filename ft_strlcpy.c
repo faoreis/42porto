@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:58:14 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/16 22:23:30 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/10/25 09:53:03 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 		i++;
 	}
 	dst[i] = '\0';
-	return(srclen);
+	return (srclen);
 }

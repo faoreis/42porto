@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 08:46:08 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/18 09:17:21 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/10/25 09:44:46 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_atoi(const char *nptr)
 			signal = -(signal);
 		i++;
 	}
-	while (nptr[i] >= '0' && nptr[i] <='9')
+	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		num = num * 10 + (nptr[i] - '0');
 		i++;

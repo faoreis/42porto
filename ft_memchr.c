@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 09:25:41 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/18 09:35:23 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/10/25 09:47:26 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	*ft_memchr(const void *s, int c, size_t n)
 {
 	const unsigned char	*str;
-	unsigned char	b;
-	size_t			i;
+	unsigned char		b;
+	size_t				i;
 
 	i = 0;
 	b = c;
