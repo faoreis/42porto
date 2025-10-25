@@ -6,9 +6,11 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 20:04:11 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/22 19:10:00 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/10/25 14:01:30 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_coustring(char const *s, char c)
 {
@@ -31,22 +33,33 @@ int	ft_coustring(char const *s, char c)
 		i++;
 	}
 	return (count);
-	
 }
 
 char	**ft_split(char const *s, char c)
 {
 	char	**strs;
-	int	i;
-	int	j;
-	int	nstr;
+	int		i;
+	int		len;
 
-	nstr = ft_coustring(s, c);
-	strs = malloc((nstr + 1) * sizeof(char*));
-	if (strs == NULL)
+	i = 0;
+	strs = malloc((ft_coustring(s, c) + 1) * sizeof(char *));
+	if (!(strs))
 		return (NULL);
-	while (s[i])
+	while (*s)
 	{
-		
+		while (*s == c && *s)
+			s++;
+		if (*s)
+		{
+			len = 0;
+			while (s[len] && s[len] != c)
+				len++;
+			strs[i] = ft_substr(s, 0, len);
+			if (strs[i++] == NULL)
+				return (NULL);
+			s += len;
+		}
 	}
+	strs[i] = NULL;
+	return (strs);
 }

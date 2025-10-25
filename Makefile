@@ -6,14 +6,14 @@
 #    By: rodrmore <rodrmore@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/10 04:04:41 by rodrmore          #+#    #+#              #
-#    Updated: 2025/10/18 17:13:27 by faribeir         ###   ########.fr        #
+#    Updated: 2025/10/25 12:25:48 by faribeir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = libft.a
 
 FLAGS = -Wall -Wextra -Werror
 
-OBJS = ft_strtrim.o ft_strjoin.o ft_substr.o ft_strdup.o ft_calloc.o ft_memmove.o ft_memcmp.o ft_memchr.o ft_atoi.o ft_strnstr.o ft_strncmp.o ft_strrchr.o ft_isprint.o ft_isalnum.o ft_isascii.o ft_strchr.o ft_strlcat.o ft_strlen.o ft_tolower.o ft_bzero.o ft_isalpha.o ft_isdigit.o ft_memcpy.o ft_memset.o ft_strlcpy.o ft_toupper.o
+OBJS = ft_split.o ft_strtrim.o ft_strjoin.o ft_substr.o ft_strdup.o ft_calloc.o ft_memmove.o ft_memcmp.o ft_memchr.o ft_atoi.o ft_strnstr.o ft_strncmp.o ft_strrchr.o ft_isprint.o ft_isalnum.o ft_isascii.o ft_strchr.o ft_strlcat.o ft_strlen.o ft_tolower.o ft_bzero.o ft_isalpha.o ft_isdigit.o ft_memcpy.o ft_memset.o ft_strlcpy.o ft_toupper.o
 
 all: $(NAME)
 
