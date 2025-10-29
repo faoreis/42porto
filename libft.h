@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:08:08 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/28 19:05:12 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/10/29 22:18:14 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <stdint.h>
+
+typedef struct s_list
+{
+	void		*content;
+	struct s_list	*next;
+}	t_list;
 
 void	*ft_memset(void *str, int c, size_t n);
 void	ft_bzero(void *str, size_t n);
