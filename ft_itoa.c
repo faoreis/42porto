@@ -6,11 +6,12 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 14:38:36 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/25 16:22:07 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/10/28 23:17:33 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 int	ft_lenint(int n)
 {
@@ -21,7 +22,7 @@ int	ft_lenint(int n)
 	if (n < 0)
 	{
 		len++;
-		i = -(n);
+		i = (unsigned int)(-(long)n);
 	}
 	else
 		i = n;
@@ -41,7 +42,7 @@ void	ft_convert(char *str, int n, int len)
 	if (n < 0)
 	{
 		str[0] = '-';
-		i = -(n);
+		i = (unsigned int)(-(long)n);
 	}
 	else
 		i = n;
@@ -56,8 +57,8 @@ void	ft_convert(char *str, int n, int len)
 
 char	*ft_itoa(int n)
 {
-	char	*str;
-	int		len;
+	char				*str;
+	unsigned int		len;
 
 	len = ft_lenint(n);
 	str = malloc((len + 1) * sizeof(char));
@@ -67,3 +68,14 @@ char	*ft_itoa(int n)
 	str[len] = '\0';
 	return (str);
 }
+
+/*
+int     main(void)
+{
+	char *str = ft_itoa(-623);
+	printf("%d\n", ft_lenint(-632));
+        printf("%s", str);
+	free(str);
+        return (0);
+}
+*/
