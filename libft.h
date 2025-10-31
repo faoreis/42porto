@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:08:08 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/29 22:18:14 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/10/31 21:11:34 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 typedef struct s_list
 {
-	void		*content;
+	void			*content;
 	struct s_list	*next;
 }	t_list;
 

@@ -5,53 +5,48 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/18 15:45:46 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/25 10:27:21 by faribeir         ###   ########.fr       */
+/*   Created: 2025/10/31 20:17:49 by faribeir          #+#    #+#             */
+/*   Updated: 2025/10/31 21:28:49 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_trim(char *str, char const *s1, char const *set)
+int	ft_trim_len(char const *s1, int len, char const *set)
 {
 	int	i;
-	int	j;
-	int	equal;
-	int	index;
 
 	i = 0;
-	index = 0;
-	while (s1[i])
+	while (set[i])
 	{
-		equal = 0;
-		j = 0;
-		while (set[j] && !equal)
+		if (s1[len - 1] == set[i])
 		{
-			if (s1[i] == set[j])
-				equal = 1;
-			j++;
+			len--;
+			i = 0;
 		}
-		if (!equal)
-		{
-			str[index] = s1[i];
-			index++;
-		}
-		i++;
+		else
+			i++;
 	}
-	str[index] = '\0';
+	return (len);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*str;
-	int		len;
-	char	*strtrim;
+	size_t	len;
+	int		i;
 
-	str = malloc(ft_strlen(s1) + 1);
-	ft_trim(str, s1, set);
-	len = (ft_strlen(str));
-	strtrim = malloc(len + 1);
-	ft_strlcpy(strtrim, str, len + 1);
-	free(str);
-	return (strtrim);
+	i = 0;
+	while (set[i])
+	{
+		if (s1[0] == set[i])
+		{
+			s1++;
+			i = 0;
+		}
+		else
+			i++;
+	}
+	len = ft_strlen(s1);
+	i = 0;
+	return (ft_substr(s1, 0, ft_trim_len(s1, len, set)));
 }
