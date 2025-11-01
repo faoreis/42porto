@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:08:08 by faribeir          #+#    #+#             */
-/*   Updated: 2025/10/31 21:11:34 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/11/01 12:07:55 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,12 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+
+t_list	*ft_lstnew(void *content);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+int		ft_lstsize(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstdelone(t_list *lst, void (*del)(void*));
+void	ft_lstclear(t_list **lst, void (*del)(void*));
 #endif
