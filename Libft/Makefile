@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rodrmore <rodrmore@student.42.fr>          +#+  +:+       +#+         #
+#    By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/10/10 04:04:41 by rodrmore          #+#    #+#              #
-#    Updated: 2025/11/05 19:46:18 by faribeir         ###   ########.fr        #
+#    Created: 2025/11/06 20:20:26 by faribeir          #+#    #+#              #
+#    Updated: 2025/11/17 20:07:53 by faribeir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 NAME = libft.a
 
 FLAGS = -Wall -Wextra -Werror
@@ -29,7 +30,7 @@ $(NAME): $(OBJS)
 	cc $(FLAGS) -c $< -I libft.h -o $@
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(OBJS) $(BONUS)
 
 fclean: clean
 	rm -rf libft.a
