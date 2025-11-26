@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:31:11 by faribeir          #+#    #+#             */
-/*   Updated: 2025/11/18 21:04:33 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/11/26 20:30:07 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,19 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-char *ft_check_line(char *buffer, char *stash)
+char	*ft_check_line(char *buffer, char *stash)
 {
 	char	*final;
 	char	*line;
 
 	final = ft_strchr(buffer, '\n');
-	if(final)
+	if (final)
 	{
-		line = ft_substr(buffer, 0 , ft_strlen(buffer) - ft_strlen(final));
-		if(!line)
+		line = ft_substr(buffer, 0, ft_strlen(buffer) - ft_strlen(final));
+		if (!line)
 			return (NULL);
 		stash = ft_strjoin(stash, final);
-		return(line);
+		return (line);
 	}
 	else
 	{
@@ -112,8 +112,8 @@ char *ft_check_line(char *buffer, char *stash)
 char	*get_next_line(int fd)
 {
 	static char	*stash;
-	char	*buffer;
-	int	readbyte;
+	char		*buffer;
+	int			readbyte;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -122,6 +122,5 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while ((readbyte = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
-
 	}
 }
