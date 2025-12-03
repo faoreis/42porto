@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 10:42:06 by faribeir          #+#    #+#             */
-/*   Updated: 2025/11/29 11:30:19 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/03 19:23:54 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdio.h>
 
 
 char	*get_next_line(int fd);
