@@ -6,43 +6,45 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:31:11 by faribeir          #+#    #+#             */
-/*   Updated: 2025/12/03 21:03:27 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/04 22:14:45 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_check_line(char *buffer, char *stash)
+char	*ft_check_line(char *buffer, char **stash)
 {
 	char	*final;
 	char	*line;
 	char	*temp;
 
-	if (!stash)
-		temp = buffer;
-	else
-		temp = ft_strjoin(stash, buffer);
-	final = ft_strchr(temp, '\n');
+	if (!*stash)
+		temp = ft_strdup("");
+	temp = stash;
+	stash = ft_strjoin(temp, buffer);
+	final = ft_strchr(stash, '\n');
 	if (final)
 	{	
 		final++;
 		line = ft_substr(temp, 0, ft_strlen(temp) - ft_strlen(final));
 		if (!line)
 			return (NULL);
-		stash = ft_substr(temp,ft_strlen(temp)- ft_strlen(final), ft_strlen(final));
+		*stash = ft_substr(temp,ft_strlen(temp)- ft_strlen(final), ft_strlen(final));
 		//free(temp);
 		return (line);
 	}
-	stash = temp;
+	*stash = temp;
 	//free(temp);
 	return (NULL);
 }
+
+
 
 char	*get_next_line(int fd)
 {
 	static char	*stash;
 	char		*buffer;
-	int			readbyte;
+	size_t			readbyte;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -57,23 +59,23 @@ char	*get_next_line(int fd)
 		if (readbyte > 0)
 		{
 			buffer[readbyte] = '\0';
-			line = ft_check_line(buffer, stash);
+			line = ft_check_line(buffer, &stash);
 		}
 		if (line)
 		{
-			//free(buffer);
+			free
 			return (line);
 		}
 		if (readbyte <= 0)
 		{
-			//free(line);
-			//free(buffer);
 			return (stash);
 		}
 	}
+	free(buffer);
 	return (NULL);
 }
 
+/*
 int	main(void)
 {
 	int	fd;
@@ -101,3 +103,4 @@ int	main(void)
 	close(fd);
 	return (0);
 }
+*/
