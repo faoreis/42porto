@@ -12,39 +12,60 @@
 
 #include "get_next_line.h"
 
-char	*ft_check_line(char *buffer, char **stash)
+static char	*ft_line(char *stash)
 {
 	char	*final;
-	char	*line;
-	char	*temp;
+	ssize_t	i;
 
-	if (!*stash)
-		temp = ft_strdup("");
-	temp = stash;
-	stash = ft_strjoin(temp, buffer);
-	final = ft_strchr(stash, '\n');
-	if (final)
-	{	
-		final++;
-		line = ft_substr(temp, 0, ft_strlen(temp) - ft_strlen(final));
-		if (!line)
-			return (NULL);
-		*stash = ft_substr(temp,ft_strlen(temp)- ft_strlen(final), ft_strlen(final));
-		//free(temp);
-		return (line);
+	i = 0;
+
+	while (stash[i] != '\n' && stash[i] != '\0')
+		i++;
+	if(stash[i] == '\0')
+		return (NULL);
+	final = ft_substr(stash, i + 1, ft_strlen(stash) - 1);
+	if (final[0] == '\0')
+	{
+		free(final);
+		final = NULL;
 	}
-	*stash = temp;
-	//free(temp);
-	return (NULL);
+	stash[i+1] = '\0';
+	return (final);
 }
 
+static char	*ft_line_buffer(int fd, char *stash, char *buffer)
+{
+	ssize_t	readbyte;
+	char	*temp;
 
+	readbyte = 1;
+	while (readbyte > 0)
+	{
+		readbyte = read(fd, buffer, BUFFER_SIZE);
+
+		if (readbyte < 0)
+		{
+			free(stash);
+			return(NULL);
+		}
+		else if (readbyte == 0)
+			break;
+		buffer[readbyte] = '\0';
+		if(!stash)
+			stash = ft_strdup("");
+		temp = stash;
+		stash = ft_strjoin(temp, buffer);
+		free(temp);
+		if(ft_strchr(stash, '\n'))
+			break;
+	}
+	return (stash);
+}
 
 char	*get_next_line(int fd)
 {
 	static char	*stash;
 	char		*buffer;
-	size_t			readbyte;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -52,27 +73,12 @@ char	*get_next_line(int fd)
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	readbyte = 1;
-	while (readbyte > 0)
-	{
-		readbyte = read(fd, buffer, BUFFER_SIZE);
-		if (readbyte > 0)
-		{
-			buffer[readbyte] = '\0';
-			line = ft_check_line(buffer, &stash);
-		}
-		if (line)
-		{
-			free
-			return (line);
-		}
-		if (readbyte <= 0)
-		{
-			return (stash);
-		}
-	}
+	line = ft_line_buffer(fd, stash, buffer);
 	free(buffer);
-	return (NULL);
+	if(!line)
+		return (NULL);
+	stash = ft_line(line);
+	return (line);
 }
 
 /*
