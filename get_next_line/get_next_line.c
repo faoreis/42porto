@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:31:11 by faribeir          #+#    #+#             */
-/*   Updated: 2025/12/06 16:31:05 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/16 19:35:47 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	main(void)
 
 	while (i < 20)
 	{
-		if(line = get_next_line(fd))
+		if((line = get_next_line(fd)))
 		{
 			printf("line: %s\n", line);
 			//free(line);

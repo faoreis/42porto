@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 11:12:40 by faribeir          #+#    #+#             */
-/*   Updated: 2025/12/13 14:54:09 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:01:52 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_var_type(const char *str, va_list args, int *i)
 		return (ft_putstr(va_arg(args, char *)));
 	else if (str[*i] == '%')
 		return (ft_putchar('%'));
-	else if (str[*i] == 'd')
+	else if (str[*i] == 'd' || str[*i] == 'i')
 		return (ft_putnbr(va_arg(args, int)));
 	return (0);
 }
