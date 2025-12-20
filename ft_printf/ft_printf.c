@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 11:12:40 by faribeir          #+#    #+#             */
-/*   Updated: 2025/12/17 20:36:44 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/20 17:25:03 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ int	ft_var_type(const char *str, va_list args, int *i)
 		return (ft_putchar('%'));
 	else if (str[*i] == 'd' || str[*i] == 'i')
 		return (ft_putnbr(va_arg(args, int)));
+	else if (str[*i] == 'u')
+		return (ft_putnbr(va_arg(args, unsigned int)));
 	else if (str[*i] == 'p')
-		return (ft_putpointer(va_args(args, void *)));
+		return (ft_put_pointer(va_arg(args, void *)));
 	else if (str[*i] == 'x' || str[*i] == 'X')
-		return();
+		return (ft_putnbr_base(va_arg(args,unsigned int), str[*i]));
 	return (0);
 }
 
@@ -62,15 +64,21 @@ int	ft_printf(const char *str, ...)
 	return (len);
 }
 
+/*
 int	main(void)
 {
 	char	*str = "world hello";
+	char *s2 = "Mussum Ipsum, cacilds vidis litro abertis. Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Atirei o pau no gatis, per gatis num morreus.";
 	int	numc;
 	char	c = 'S';
 	int	i = (-9468597);
 
+	numc = ft_printf(" %s %s %s %s %s", " - ", "", "4", "", s2);
+	printf("\n");
+	printf("%d\n", numc);
 	numc = ft_printf("Hello world: %c\n", c);
 	printf("%d\n", numc);
+
 	numc = ft_printf("Hello world: %s\n", str);
 	printf("%d\n", numc);
 	printf("%%\n");
@@ -78,3 +86,4 @@ int	main(void)
         printf("%d\n", numc);
 	return (0);
 }
+*/

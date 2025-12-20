@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 11:15:38 by faribeir          #+#    #+#             */
-/*   Updated: 2025/12/13 14:56:22 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/20 17:21:21 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	ft_putstr(char *str)
 
 int	ft_putnbr(int nbr)
 {
+	int				count;
 	unsigned int	nb;
-	int		count;
 
 	count = 0;
 	if (nbr < 0)
@@ -54,14 +54,32 @@ int	ft_putnbr(int nbr)
 	return (count);
 }
 
-int	ft_putpointer(void *pointer)
+int	ft_put_pointer(void *pointer)
 {
 	int	count;
 
 	count = 0;
-	count = ft_putstr("0x");
-
-
+	count += ft_putstr("0x");
+	count += ft_putnbr_base((unsigned long)pointer, 'x');
+	return (count);
 }
 
-int	ft_putnbr_base()
+int	ft_putnbr_base(unsigned long nbr, char c)
+{
+	int				count;
+	char			*base;
+
+	count = 0;
+	if (c == 'x')
+		base = "0123456789abcdef";
+	else
+		base = "0123456789ABCDEF";
+	if (nbr < 16)
+		return (count += ft_putchar(base[nbr]));
+	else
+	{
+		count += ft_putnbr_base(nbr / 16, c);
+		count += ft_putchar(base[nbr % 16]);
+	}
+	return (count);
+}
