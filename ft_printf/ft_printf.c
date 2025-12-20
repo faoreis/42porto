@@ -23,7 +23,9 @@ int	ft_var_type(const char *str, va_list args, int *i)
 	else if (str[*i] == 'd' || str[*i] == 'i')
 		return (ft_putnbr(va_arg(args, int)));
 	else if (str[*i] == 'p')
-		return ()
+		return (ft_putpointer(va_args(args, void *)));
+	else if (str[*i] == 'x' || str[*i] == 'X')
+		return();
 	return (0);
 }
 

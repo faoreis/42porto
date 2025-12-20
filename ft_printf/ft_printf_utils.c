@@ -53,3 +53,15 @@ int	ft_putnbr(int nbr)
 	}
 	return (count);
 }
+
+int	ft_putpointer(void *pointer)
+{
+	int	count;
+
+	count = 0;
+	count = ft_putstr("0x");
+
+
+}
+
+int	ft_putnbr_base()
