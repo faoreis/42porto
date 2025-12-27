@@ -1,8 +1,9 @@
-*This project has been created as part of the 42 curriculum by faribeir.
+# ft_printf
 
-#ft_printf
+This project has been created as part of the 42 curriculum by faribeir.
 
-##Description
+
+## Description
 
 'ft_printf' is a reimplementation of the standart C library function 'printf'.
 
@@ -12,25 +13,10 @@ The prototype of the function is:
 
 ```c
 int ft_printf(const char *, ...);
-
+```
 
 ### Suported Conversions
 
-%c
-
-%s
-
-%p
-
-%d
-
-%i
-
-%u
-
-%x
-
-%X 
-
-%%
- 
+```
+%c %s %p %d %i %u %x %X %%
+```
