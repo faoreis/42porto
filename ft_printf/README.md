@@ -20,3 +20,39 @@ int ft_printf(const char *, ...);
 ```
 %c %s %p %d %i %u %x %X %%
 ```
+
+## Instructions
+
+To use `ft_printf`, follow these steps:
+
+### 1. Clone the repository
+
+```
+git clone https://github.com/<your-username>/ft_printf.git
+```
+
+```
+cd ft_printf
+```
+
+### 2. Compile the library
+
+```
+make
+```
+
+### 3. clean compiled files
+
+```
+make clean
+
+make fclean
+
+make re
+```
+
+### 4. Usage
+
+```
+#include "ft_printf.h"
+```
