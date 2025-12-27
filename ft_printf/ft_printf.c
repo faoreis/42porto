@@ -6,11 +6,26 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 11:12:40 by faribeir          #+#    #+#             */
-/*   Updated: 2025/12/20 17:25:03 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:47:54 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h" 
+
+int	ft_putnbr_u(unsigned int nbr)
+{
+	int	count;
+
+	count = 0;
+	if (nbr < 10)
+		return (count += ft_putchar(nbr + '0'));
+	else
+	{
+		count += ft_putnbr(nbr / 10);
+		count += ft_putchar((nbr % 10) + '0');
+	}
+	return (count);
+}
 
 int	ft_var_type(const char *str, va_list args, int *i)
 {
@@ -23,11 +38,11 @@ int	ft_var_type(const char *str, va_list args, int *i)
 	else if (str[*i] == 'd' || str[*i] == 'i')
 		return (ft_putnbr(va_arg(args, int)));
 	else if (str[*i] == 'u')
-		return (ft_putnbr(va_arg(args, unsigned int)));
+		return (ft_putnbr_u(va_arg(args, unsigned int)));
 	else if (str[*i] == 'p')
 		return (ft_put_pointer(va_arg(args, void *)));
 	else if (str[*i] == 'x' || str[*i] == 'X')
-		return (ft_putnbr_base(va_arg(args,unsigned int), str[*i]));
+		return (ft_putnbr_base(va_arg(args, unsigned int), str[*i]));
 	return (0);
 }
 
@@ -68,7 +83,7 @@ int	ft_printf(const char *str, ...)
 int	main(void)
 {
 	char	*str = "world hello";
-	char *s2 = "Mussum Ipsum, cacilds vidis litro abertis. Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi. Atirei o pau no gatis, per gatis num morreus.";
+	char *s2 = "Mussum Ipsum, caciilds vidis litro abertis. Posuerro vreus.";
 	int	numc;
 	char	c = 'S';
 	int	i = (-9468597);

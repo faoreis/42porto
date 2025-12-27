@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 11:15:38 by faribeir          #+#    #+#             */
-/*   Updated: 2025/12/20 17:21:21 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:31:08 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ int	ft_putstr(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
 	while (str[i])
 	{
 		write(1, &str[i], 1);
@@ -59,6 +64,12 @@ int	ft_put_pointer(void *pointer)
 	int	count;
 
 	count = 0;
+	if ((unsigned long)pointer == 0)
+	{
+		write(1, "(nil)", 5);
+		count += 5;
+		return (count);
+	}
 	count += ft_putstr("0x");
 	count += ft_putnbr_base((unsigned long)pointer, 'x');
 	return (count);

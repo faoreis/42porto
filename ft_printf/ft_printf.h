@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 11:16:20 by faribeir          #+#    #+#             */
-/*   Updated: 2025/12/20 17:21:53 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/27 11:40:35 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int	ft_putstr(char *str);
 int	ft_putnbr(int nbr);
 int	ft_putnbr_base(unsigned long nbr, char c);
 int	ft_put_pointer(void *pointer);
+int	ft_putnbr_u(unsigned int nbr);
 
 #endif
