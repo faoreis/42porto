@@ -56,3 +56,11 @@ make re
 ```
 #include "ft_printf.h"
 ```
+
+# Tester
+
+To ensure the correctness and robustness of ft_printf, this project was tested using Francinette.
+
+``` link 
+https://github.com/xicodomingues/francinette?tab=readme-ov-file
+```
