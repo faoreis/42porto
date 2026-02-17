@@ -18,6 +18,13 @@
 # include <stdlib.h>
 # include "Libft/libft.h"
 
-int	ft_validate_input(int argc, char **list);
+typedef struct s_node
+{
+	int				num;
+	int				index;
+	struct s_node	*next;
+}	t_node;
+
+int	ft_validate_arg(int argc, char **list);
 
 #endif
