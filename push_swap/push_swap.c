@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 21:04:11 by faribeir          #+#    #+#             */
-/*   Updated: 2026/02/18 21:05:24 by faribeir         ###   ########.fr       */
+/*   Updated: 2026/03/04 14:17:53 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-
 
 int	ft_contains(const char *s1, char **s2, int i)
 {
@@ -64,12 +63,11 @@ int	ft_isnum(char *num)
 		i++;
 	while (num[i] && !nnum)
 	{
-		if(num[i] < '0' ||  num[i] > '9')
+		if (num[i] < '0' || num[i] > '9')
 			nnum = 1;
 		i++;
 	}
 	return (nnum);
-	
 }
 
 int	ft_validade_num(char **num, int i)
@@ -89,7 +87,7 @@ int	ft_validade_num(char **num, int i)
 			if (tempnum < -2147483648 || tempnum > 2147483647)
 				lerror = 1;
 		}
-		i++;		
+		i++;
 	}
 	return (lerror);
 }
@@ -97,11 +95,11 @@ int	ft_validade_num(char **num, int i)
 void	ft_validate_arg(int argc, char **argv)
 {
 	int	i;
-	char **list;
-	int lerror;
+	char	**list;
+	int	lerror;
 
 	i = 0;
-	if(argc == 2)
+	if (argc == 2)
 		list = ft_split(argv[1], ' ');
 	else
 	{
@@ -116,11 +114,10 @@ void	ft_validate_arg(int argc, char **argv)
 		write(1, "Error\n", 6);
 	}
 }
-   
-int main(int argc,char **argv)
-{
 
-	if(argc == 1)   
+int	main(int argc, char **argv)
+{
+	if (argc == 1)
 		return (0);
 	ft_validate_arg(argc, argv);
 	/*
@@ -134,5 +131,5 @@ int main(int argc,char **argv)
 	else
 		return (write(1, "ok!", 3));
 	*/
-	return 0;
-}   
+	return (0);
+}
