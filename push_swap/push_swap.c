@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 21:04:11 by faribeir          #+#    #+#             */
-/*   Updated: 2026/03/04 14:17:53 by faribeir         ###   ########.fr       */
+/*   Updated: 2026/03/06 20:34:32 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int	main(int argc, char **argv)
 	if (argc == 1)
 		return (0);
 	ft_validate_arg(argc, argv);
+	
 	/*
 		if(argc == 2)
 		list = ft_split(argv[1], ' ');
