@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 21:04:11 by faribeir          #+#    #+#             */
-/*   Updated: 2026/03/06 20:34:32 by faribeir         ###   ########.fr       */
+/*   Created: 2026/03/10 21:13:21 by faribeir          #+#    #+#             */
+/*   Updated: 2026/03/10 21:16:01 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,16 +112,23 @@ void	ft_validate_arg(int argc, char **argv)
 		if (argc == 2)
 			ft_free(list);
 		write(1, "Error\n", 6);
+		exit(0)
 	}
 }
 
+/*
 int	main(int argc, char **argv)
 {
+	t_node	stacka;
+	t_node	stackb;
 	if (argc == 1)
 		return (0);
 	ft_validate_arg(argc, argv);
+	stacka = ft_create_stack(argc, argv);
+	stackb = NULL;
+
 	
-	/*
+
 		if(argc == 2)
 		list = ft_split(argv[1], ' ');
 	else
@@ -131,6 +138,8 @@ int	main(int argc, char **argv)
 		return (write(1, "error\n", 6));
 	else
 		return (write(1, "ok!", 3));
-	*/
+	
 	return (0);
 }
+*/
+
