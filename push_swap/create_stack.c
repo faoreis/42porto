@@ -6,13 +6,14 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 20:41:23 by faribeir          #+#    #+#             */
-/*   Updated: 2026/03/10 21:32:53 by faribeir         ###   ########.fr       */
+/*   Updated: 2026/03/14 12:10:18 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 t_node	*ft_add_node(int content, int index)
 {
-	t_node
+	t_node	*node;
+
 	node = malloc(sizeof(t_node));
 	if (!node)
 		return (NULL);
@@ -24,10 +25,10 @@ t_node	*ft_add_node(int content, int index)
 
 t_node	*ft_insert_stack(char **list, int i)
 {
-	t_node  *stack;
-	t_node  *current;
-	t_node  *new;
-	int     index;
+	t_node	*stack;
+	t_node	*current;
+	t_node	*new;
+	int		index;
 
 	stack = NULL;
 	current = NULL;
@@ -35,23 +36,23 @@ t_node	*ft_insert_stack(char **list, int i)
 	while (list[i])
 	{
 		new = ft_add_node(ft_atoi(list[i]), index++);
-	if(!new)
-		return(NULL);
-	if(!stack)
-		stack = new;
-	else
-		current->next = new;
-	current = new;
-	i++;
+		if (!new)
+			return (NULL);
+		if (!stack)
+			stack = new;
+		else
+			current->next = new;
+		current = new;
+		i++;
 	}
 	return (stack);
 }
 
 t_node	*ft_create_stack(int argc, char **argv)
 {
-	int	i;
+	int		i;
 	char	**list;
-	t_node  stack;
+	t_node	stack;
 
 	i = 0;
 	if (argc == 2)
@@ -62,4 +63,7 @@ t_node	*ft_create_stack(int argc, char **argv)
 		i = 1;
 	}
 	stack = ft_insert_stack(list, i);
+	if (!stack)
+		return (NULL);
+	return (stack);
 }

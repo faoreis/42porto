@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 21:13:21 by faribeir          #+#    #+#             */
-/*   Updated: 2026/03/10 21:16:01 by faribeir         ###   ########.fr       */
+/*   Updated: 2026/03/14 12:55:40 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,11 @@ void	ft_validate_arg(int argc, char **argv)
 		if (argc == 2)
 			ft_free(list);
 		write(1, "Error\n", 6);
-		exit(0)
+		exit(0);
 	}
 }
 
-/*
+
 int	main(int argc, char **argv)
 {
 	t_node	stacka;
@@ -126,20 +126,8 @@ int	main(int argc, char **argv)
 	ft_validate_arg(argc, argv);
 	stacka = ft_create_stack(argc, argv);
 	stackb = NULL;
-
-	
-
-		if(argc == 2)
-		list = ft_split(argv[1], ' ');
-	else
-		list = argv;  
-	error = ft_validate_arg(argc, list);
-	if (error < 0)
-		return (write(1, "error\n", 6));
-	else
-		return (write(1, "ok!", 3));
-	
+	if (!stacka)
+		return (write(1, "Error\n", 6));	
 	return (0);
 }
-*/
 
