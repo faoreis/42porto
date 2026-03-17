@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "push_swap.h"
+
 t_node	*ft_add_node(int content, int index)
 {
 	t_node	*node;
@@ -52,7 +54,7 @@ t_node	*ft_create_stack(int argc, char **argv)
 {
 	int		i;
 	char	**list;
-	t_node	stack;
+	t_node	*stack;
 
 	i = 0;
 	if (argc == 2)
@@ -65,5 +67,6 @@ t_node	*ft_create_stack(int argc, char **argv)
 	stack = ft_insert_stack(list, i);
 	if (!stack)
 		return (NULL);
+	ft_free(list);
 	return (stack);
 }

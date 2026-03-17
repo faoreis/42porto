@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
 
 void	ft_swap(t_node	**stack)
 {
@@ -24,7 +24,7 @@ void	ft_swap(t_node	**stack)
 
 void	sa(t_node **a)
 {
-	if (!(*a) || !((*a)->next_))
+	if (!(*a) || !((*a)->next))
 		return;
 	ft_swap(a);
 	write(1, "sa\n", 3);	
@@ -32,7 +32,7 @@ void	sa(t_node **a)
 
 void	sb(t_node **b)
 {
-	if (!(*b) || !((*b)->next_))
+	if (!(*b) || !((*b)->next))
 		return;
 	ft_swap(b);
 	write(1, "sb\n", 3);
@@ -40,9 +40,9 @@ void	sb(t_node **b)
 
 void	ss(t_node **a, t_node **b)
 {
-	if ((!(*b) || !((*b)->next_)) || (!(*a) || !((*a)->next_)))
+	if ((!(*b) || !((*b)->next)) || (!(*a) || !((*a)->next)))
 		return;	
 	ft_swap(a);
 	ft_swap(b);
-	write(1, "ss\n", 3)
+	write(1, "ss\n", 3);
 }

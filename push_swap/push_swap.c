@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 21:13:21 by faribeir          #+#    #+#             */
-/*   Updated: 2026/03/14 12:55:40 by faribeir         ###   ########.fr       */
+/*   Updated: 2026/03/17 21:05:35 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,13 +114,15 @@ void	ft_validate_arg(int argc, char **argv)
 		write(1, "Error\n", 6);
 		exit(0);
 	}
+	if (argc == 2)
+			ft_free(list);
 }
 
-
+#include <stdio.h>
 int	main(int argc, char **argv)
 {
-	t_node	stacka;
-	t_node	stackb;
+	t_node	*stacka;
+	t_node	*stackb;
 	if (argc == 1)
 		return (0);
 	ft_validate_arg(argc, argv);
@@ -128,6 +130,26 @@ int	main(int argc, char **argv)
 	stackb = NULL;
 	if (!stacka)
 		return (write(1, "Error\n", 6));	
+
+
+
+	t_node *tmp;
+	t_node *tmp2;
+	tmp = stacka;
+	while (tmp)
+	{
+		printf("%d\n", tmp->num);
+		tmp = tmp->next;
+	}
+
+	while (stacka)
+	{
+		tmp2 = stacka->next;
+		free(stacka);
+		stacka = tmp2;
+	}
+
+	free(tmp);
 	return (0);
 }
 
