@@ -16,8 +16,8 @@ void	ft_swap(t_node	**stack)
 {
 	t_node	*temp;
 
-	temp = *stack;
-	*stack = (*stack)->next;
+	temp = (*stack);
+	(*stack) = (*stack)->next;
 	temp->next = (*stack)->next;
 	(*stack)->next = temp;
 }

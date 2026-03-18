@@ -12,7 +12,7 @@
 
 #include "../push_swap.h"
 
-void    ft_rotate(t_node **stack)
+void	ft_rotate(t_node **stack)
 {
     t_node *first;
     t_node *last;
@@ -20,30 +20,30 @@ void    ft_rotate(t_node **stack)
     first = (*stack);
     (*stack) = first->next;
     first->next = NULL;
-    last = ft_lstlast((*stack));
+    last = ft_nodelast((*stack));
     last->next = first;
 }
 
-void    ra(t_node **stacka)
+void	ra(t_node **stacka)
 {
     if (!(*stacka) || !((*stacka)->next))
-        return
+        return;
     ft_rotate(stacka);
     write(1, "ra\n", 3);
 }
 
-void    rb(t_node **stackb)
+void	rb(t_node **stackb)
 {
     if (!(*stackb) || !((*stackb)->next))
-        return
+        return;
     ft_rotate(stackb);
     write(1, "rb\n", 3);
 }
 
-void    rr(t_node **stacka, t_node **stackb)
+void	rr(t_node **stacka, t_node **stackb)
 {
     if ((!(*stacka) || !((*stacka)->next)) || (!(*stackb) || !((*stackb)->next)))
-        return
+        return;
     ft_rotate(stacka);
     ft_rotate(stackb);
     write(1, "rr\n", 3);

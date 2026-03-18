@@ -12,7 +12,7 @@
 
 #include "../push_swap.h"
 
-void    ft_reverse(t_node **stack)
+void	ft_reverse(t_node **stack)
 {
     t_node  *last;
     t_node  *first;
@@ -26,27 +26,27 @@ void    ft_reverse(t_node **stack)
     *stack = last;
 }
 
-void    rra(t_node **stacka)
+void	rra(t_node **stacka)
 {
     if (!(*stacka) || !((*stacka)->next))
-        return
+        return;
     ft_reverse(stacka);
-    write(1, "rra\n", 3);
+    write(1, "rra\n", 4);
 }
 
-void    rrb(t_node **stackb)
+void	rrb(t_node **stackb)
 {
     if (!(*stackb) || !((*stackb)->next))
-        return
+        return;
     ft_reverse(stackb);
-    write(1, "rrb\n", 3);
+    write(1, "rrb\n", 4);
 }
 
-void    rrr(t_node **stacka, t_node **stackb)
+void	rrr(t_node **stacka, t_node **stackb)
 {
     if ((!(*stacka) || !((*stacka)->next)) || (!(*stackb) || !((*stackb)->next)))
-        return
+        return;
     ft_reverse(stacka);
     ft_reverse(stackb);
-    write(1, "rrr\n", 3);
+    write(1, "rrr\n", 4);
 }

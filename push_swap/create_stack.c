@@ -67,6 +67,7 @@ t_node	*ft_create_stack(int argc, char **argv)
 	stack = ft_insert_stack(list, i);
 	if (!stack)
 		return (NULL);
-	ft_free(list);
+	if (argc == 2)
+		ft_free(list);
 	return (stack);
 }

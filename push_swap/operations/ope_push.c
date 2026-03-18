@@ -12,7 +12,7 @@
 
 #include "../push_swap.h"
 
-void    pa(t_node **stacka, t_node **stackb)
+void	pa(t_node **stacka, t_node **stackb)
 {
     t_node *topb;
     if (!(*stackb))
@@ -20,11 +20,11 @@ void    pa(t_node **stacka, t_node **stackb)
     topb = (*stackb)->next;
     (*stackb)->next = (*stacka);
     (*stacka) = (*stackb);
-    stackb = topb;
+    (*stackb) = topb;
     write(1, "pa\n", 3);
 }
 
-void    pb(t_node **stacka, t_node **stackb)
+void	pb(t_node **stacka, t_node **stackb)
 {
     t_node *topa;
     if (!(*stacka))
@@ -32,6 +32,6 @@ void    pb(t_node **stacka, t_node **stackb)
     topa = (*stacka)->next;
     (*stacka)->next = (*stackb);
     (*stackb) = (*stacka);
-    stacka = topa;
+    (*stacka) = topa;
     write(1, "pb\n", 3);
 }

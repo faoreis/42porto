@@ -1,6 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   index.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/18 20:18:58 by faribeir          #+#    #+#             */
+/*   Updated: 2026/03/18 20:19:02 by faribeir         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-int *fill_array(t_node *stacka, int size)
+int	ft_stack_size(t_node *stack)
+{
+    int size = 0;
+
+    while (stack)
+    {
+        size++;
+        stack = stack->next;
+    }
+    return size;
+}
+
+int *ft_fill_array(t_node *stacka, int size)
 {
     int *arr;
     int i;
@@ -19,7 +43,7 @@ void    ft_sort_array(int *arr, int size)
 {
     int i;
     int j;
-    int temp;
+    int tmp;
 
     i = 0;
     while (i < size -1)
@@ -53,19 +77,21 @@ int ft_get_index(int *arr, int size, int num)
     return (-1);
 }
 
-void    ft_index(t_node *stacka)
+void    ft_index(t_node **stacka)
 {
-    int *arr;
-    int size;
+	int *arr;
+	int size;
+	t_node *tmp;
 
-    size = ft_stack_size(stacka);
-    arr = ft_fill_array(stacka, size);
-    ft_sort_array(arr, size);
+	size = ft_stack_size(*stacka);
+	arr = ft_fill_array(*stacka, size);
+	ft_sort_array(arr, size);
 
-    while (stacka)
-    {
-        stacka->index = ft_get_index(arr, size, stacka->num);
-        stacka = stacka->next;
-    }
+	tmp = *stacka;
+	while (tmp)
+	{
+	tmp->index = ft_get_index(arr, size, tmp->num);
+	tmp = tmp->next;
+	}
     free(arr);
 }

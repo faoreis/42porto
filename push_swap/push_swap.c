@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 21:13:21 by faribeir          #+#    #+#             */
-/*   Updated: 2026/03/17 21:05:35 by faribeir         ###   ########.fr       */
+/*   Updated: 2026/03/18 22:38:07 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_validate_arg(int argc, char **argv)
 		exit(0);
 	}
 	if (argc == 2)
-			ft_free(list);
+		ft_free(list);
 }
 
 #include <stdio.h>
@@ -130,17 +130,32 @@ int	main(int argc, char **argv)
 	stackb = NULL;
 	if (!stacka)
 		return (write(1, "Error\n", 6));	
+	//free(stacka);
+	ft_index(&stacka);
+	
+	int size = stack_size(stacka);
 
+	if (size == 2)
+		sa(&stacka);
+	else if (size == 3)
+		sort_3(&stacka);
+	else if (size <= 5)
+		sort_5(&stacka, &stackb);
+	else
+		sort_big(&stacka, &stackb);
 
+	t_node *tmp2;
 
 	t_node *tmp;
-	t_node *tmp2;
-	tmp = stacka;
+
+	tmp = stacka;	
 	while (tmp)
 	{
-		printf("%d\n", tmp->num);
+		printf("num: [%d]\n", tmp->num);
+		printf("index: [%d]\n", tmp->index);
 		tmp = tmp->next;
 	}
+
 
 	while (stacka)
 	{
@@ -149,7 +164,7 @@ int	main(int argc, char **argv)
 		stacka = tmp2;
 	}
 
-	free(tmp);
 	return (0);
+
 }
 
