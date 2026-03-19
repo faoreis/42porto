@@ -6,34 +6,11 @@
 /*   By: faribeir <faribeir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 21:13:21 by faribeir          #+#    #+#             */
-/*   Updated: 2026/03/18 22:38:07 by faribeir         ###   ########.fr       */
+/*   Updated: 2026/03/19 22:35:28 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	ft_free(char **list)
-{
-	int	i;
-
-	i = 0;
-	while (list[i])
-	{
-		free(list[i]);
-		i++;
-	}
-	free(list);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	int	i;
-
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
 
 int	ft_contains(const char *s1, char **s2, int i)
 {
@@ -73,7 +50,7 @@ int	ft_isnum(char *num)
 int	ft_validade_num(char **num, int i)
 {
 	int	lerror;
-	int	tempnum;
+	long	tempnum;
 
 	lerror = 0;
 	while (num[i] && !lerror)
@@ -94,9 +71,9 @@ int	ft_validade_num(char **num, int i)
 
 void	ft_validate_arg(int argc, char **argv)
 {
-	int	i;
-	char	**list;
-	int	lerror;
+	int			i;
+	int			lerror;
+	char		**list;
 
 	i = 0;
 	if (argc == 2)
@@ -105,7 +82,7 @@ void	ft_validate_arg(int argc, char **argv)
 	{
 		list = argv;
 		i = 1;
-	}
+	}	
 	lerror = ft_validade_num(list, i);
 	if (lerror)
 	{
@@ -123,6 +100,7 @@ int	main(int argc, char **argv)
 {
 	t_node	*stacka;
 	t_node	*stackb;
+
 	if (argc == 1)
 		return (0);
 	ft_validate_arg(argc, argv);
@@ -130,24 +108,16 @@ int	main(int argc, char **argv)
 	stackb = NULL;
 	if (!stacka)
 		return (write(1, "Error\n", 6));	
-	//free(stacka);
 	ft_index(&stacka);
-	
-	int size = stack_size(stacka);
-
-	if (size == 2)
+	if (stack_size(stacka) == 2)
 		sa(&stacka);
-	else if (size == 3)
+	else if (stack_size(stacka) == 3)
 		sort_3(&stacka);
-	else if (size <= 5)
+	else if (stack_size(stacka) <= 5)
 		sort_5(&stacka, &stackb);
 	else
 		sort_big(&stacka, &stackb);
-
-	t_node *tmp2;
-
 	t_node *tmp;
-
 	tmp = stacka;	
 	while (tmp)
 	{
@@ -155,16 +125,7 @@ int	main(int argc, char **argv)
 		printf("index: [%d]\n", tmp->index);
 		tmp = tmp->next;
 	}
-
-
-	while (stacka)
-	{
-		tmp2 = stacka->next;
-		free(stacka);
-		stacka = tmp2;
-	}
-
+	ft_free_stack(stacka);
 	return (0);
-
 }
 
