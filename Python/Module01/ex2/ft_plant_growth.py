@@ -5,10 +5,10 @@ class Plant:
         self._age = _age
 
     def get_info(self):
-        print(f'{self.name}: {self.height}cm, {self._age} days old')
+        print(f'{self.name}: {self.height:.1f}cm, {self._age} days old')
     
     def grow(self):
-        self.height += 1
+        self.height += 0.8
 
     def age(self):
         self._age += 1
@@ -17,14 +17,13 @@ class Plant:
 
 def ft_plant_growth():
     plant = Plant("Rose", 25, 30)
-    print("=== Day 1 ===")
     plant.get_info()
     for i in range(6):
+        print(f'=== Day {i + 1} ===')
         plant.grow()
         plant.age()
-    print("=== Day 7 ===")
-    plant.get_info()
-    print("=== Growth this week: +6cm ===")
+        plant.get_info()
+    print("=== Growth this week: 6cm ===")
 
 
 if  __name__ == "__main__":
