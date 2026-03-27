@@ -7,10 +7,16 @@ class Plant:
             self.__shade = 0
 
         def display(self):
-            print(f'Stats: {self.__grow} grow, {self.__age} age, {self.__show} show')
+            print(
+                f'Stats: {self.__grow} grow, {self.__age} age, '
+                f'{self.__show} show'
+            )
 
         def display_tree(self):
-            print(f'Stats: {self.__grow} grow, {self.__age} age, {self.__show} show')
+            print(
+                f'Stats: {self.__grow} grow, {self.__age} age, '
+                f'{self.__show} show'
+            )
             print(f'{self.__shade} shade')
 
         def inc_grow(self):
@@ -76,7 +82,10 @@ class Tree(Plant):
         self.trunk_diameter = trunk_diameter
 
     def produce_shade(self):
-        print(f'Tree {self.name} now produces a shade of {self.height:.1f}cm long and {self.trunk_diameter:.1f}cm wide.')
+        print(
+            f'Tree {self.name} now produces a shade of {self.height:.1f}cm '
+            f'long and {self.trunk_diameter:.1f}cm wide.'
+        )
         self._status.inc_shade()
 
     def show(self):
