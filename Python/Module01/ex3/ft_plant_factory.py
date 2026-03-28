@@ -1,20 +1,20 @@
 class Plant:
-    def __init__(self, name, height, _age):
+    def __init__(self, name: str, height: int, age: int) -> None:
         self.name = name
         self.height = height
-        self._age = _age
+        self.ages = age
 
-    def show(self):
-        return f'{self.name}: {self.height:.1f}cm, {self._age} days old'
+    def show(self) -> None:
+        return f'{self.name}: {self.height:.1f}cm, {self.ages} days old'
 
-    def grow(self):
+    def grow(self) -> None:
         self.height += 0.8
 
-    def age(self):
-        self._age += 1
+    def age(self) -> None:
+        self.ages += 1
 
 
-def ft_plant_factory():
+def ft_plant_factory()  -> None:
     plant = Plant("Rose", 25, 30)
     plant1 = Plant("Oak", 200, 365)
     plant2 = Plant("Cactus", 5, 90)

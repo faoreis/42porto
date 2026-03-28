@@ -1,42 +1,42 @@
 class Plant:
-    def __init__(self, name: str , height: int, age: int):
+    def __init__(self, name: str , height: float, age: int) -> None:
         self.name = name
         self._height = height
         self._age = age
 
-    def show(self):
+    def show(self) -> str:
         return f'{self.name}: {self._height:.1f}cm, {self._age} days old'
 
-    def grow(self):
+    def grow(self) -> None:
         self._height += 0.8
 
-    def age(self):
+    def age(self) -> None:
         self._age += 1
 
-    def get_height(self):
+    def get_height(self) -> float:
         return self._height
 
-    def get_age(self):
+    def get_age(self)  -> int:
         return self._age
 
-    def set_height(self, sheight):
+    def set_height(self, sheight: float) -> bool:
         if sheight > 0:
-            self.height += sheight
+            self._height += sheight
             return True
         else:
             print(f"{self.name}: Error, height can't be negative")
             return False
 
-    def set_age(self, ages):
+    def set_age(self, ages: int) -> bool:
         if ages > 0:
-            self._age = 100
+            self._age += ages
             return True
         else:
             print(f"{self.name}: Error, age can't be negative")
             return False
 
 
-def ft_garden_security():
+def ft_garden_security() -> None:
     rose = Plant("Rose", 15, 10)
     print(f'Plant created: {rose.show()}')
     print()
