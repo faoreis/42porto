@@ -2,7 +2,10 @@ import sys
 
 print("=== Player Score Analytics ===")
 if len(sys.argv) == 1:
-    print("No scores provided. Usage: python3 ft_score_analytics.py <score1> <score2> ...")
+    print(
+        "No scores provided. Usage: python3 "
+        "ft_score_analytics.py <score1> <score2> ..."
+    )
 else:
     newlist = []
     for arg in sys.argv[1:]:
@@ -11,7 +14,10 @@ else:
         except ValueError:
             print(f"Invalid parameter: '{arg}'")
     if len(newlist) == 0:
-        print("No scores provided. Usage: python3 ft_score_analytics.py <score1> <score2> ...")
+        print(
+            "No scores provided. Usage: python3 "
+            "ft_score_analytics.py <score1> <score2> ..."
+        )
     else:
         print("Scores processed:", newlist)
         print("Total players:", len(newlist))
