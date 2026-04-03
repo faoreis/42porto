@@ -1,7 +1,7 @@
 import random
 
 
-def gen_player_achievements() -> set:
+def gen_player_achievements() -> list:
     achievements = [
         "Crafting Genius",
         "World Savior",
@@ -24,43 +24,85 @@ def gen_player_achievements() -> set:
         "Healer",
         "Assassin"
     ]
+    return (achievements)
+
+
+def random_player_achievements() -> set:
+    achievements = gen_player_achievements()
     p_achievements = []
     a_len = random.randint(1, len(achievements))
     p_achievements = random.sample(achievements, a_len)
     return set(p_achievements)
 
-
-if __name__ == "__main__":
-    print("=== Achievement Tracker System ===")
-    print()
-    alice_achievements = gen_player_achievements()
+def player_achievements():
+    alice_achievements = random_player_achievements()
     print("Player Alice: ", alice_achievements)
-    bob_achievements = gen_player_achievements()
+    bob_achievements = random_player_achievements()
     print("Player Bob: ", bob_achievements)
-    charlie_achievements = gen_player_achievements()
+    charlie_achievements = random_player_achievements()
     print("Player Charlie: ", charlie_achievements)
-    dylan_achievements = gen_player_achievements()
+    dylan_achievements = random_player_achievements()
     print("Player Dylan: ", dylan_achievements)
-    print()
     union = (
         alice_achievements
         | bob_achievements
         | charlie_achievements
         | dylan_achievements
     )
-    print("All distinct achievements: ", union)
+    print("\nAll distinct achievements: ", union)
     inter = (
         alice_achievements
         & bob_achievements
         & charlie_achievements
         & dylan_achievements
     )
-    print("Common achievements: ", inter)
+    print("\nCommon achievements: ", inter)
     diffa = (
         alice_achievements
         - bob_achievements
         - charlie_achievements
-        - dylan_achievements       
+        - dylan_achievements
     )
+    print("\nOnly Alice has: ", diffa)
+    diffb = (
+        bob_achievements
+        - alice_achievements
+        - charlie_achievements
+        - dylan_achievements
+    )
+    print("\nOnly Bob has: ", diffb)
+    diffc = (
+        charlie_achievements
+        - bob_achievements
+        - alice_achievements
+        - dylan_achievements
+    )
+    print("\nOnly Charlie has: ", diffc)
+    diffd = (
+        dylan_achievements
+        - bob_achievements
+        - charlie_achievements
+        - alice_achievements
+    )
+    print("\nOnly Dylan has: ", diffd)
+    missia = (
+        set(gen_player_achievements()) - alice_achievements
+    )
+    print("\nAlice is missing: ", missia)
+    missib = (
+        set(gen_player_achievements()) - bob_achievements
+    )
+    print("Bob is missing: ", missib)
+    missic = (
+        set(gen_player_achievements()) - charlie_achievements
+    )
+    print("Charlie is missing: ", missic)
+    missid = (
+        set(gen_player_achievements()) - dylan_achievements
+    )
+    print("Dylan is missing: ", missid)
 
 
+if __name__ == "__main__":
+    print("=== Achievement Tracker System ===")
+    player_achievements()
