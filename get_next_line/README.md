@@ -29,27 +29,55 @@ git clone https://github.com/faoreis/42porto.git
 cd get_next_line
 ```
 
-### 2. Compile the library
+### 2. Compile files
 
 ```
-make
+gcc -Wall -Wextra -Werror main.c get_next_line.c get_next_line_utils.c
 ```
 
-### 3. clean compiled files
+### 3. Usage
 
 ```
-make clean
-
-make fclean
-
-make re
-```
-
-### 4. Usage
-
-```
+#include <fcntl.h>
+#include <stdio.h>
 #include "get_next_line.h"
+
+int main(void)
+{
+    int     fd;
+    char    *line;
+
+    fd = open("example.txt", O_RDONLY);
+    if (fd < 0)
+    {
+        printf("ERROR");
+        return (1);
+    }
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line);
+    }
+
+    close(fd);
+    return (0);
+}
 ```
+
+Example.txt
+```
+Hello world!!
+Hello
+world
+```
+
+Output
+```
+Hello world!!
+Hello
+world
+```
+
 
 # Tester
 

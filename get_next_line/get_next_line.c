@@ -6,7 +6,7 @@
 /*   By: faribeir <faribeir@student.42porto.co      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 20:31:11 by faribeir          #+#    #+#             */
-/*   Updated: 2025/12/16 19:35:47 by faribeir         ###   ########.fr       */
+/*   Updated: 2025/12/31 13:56:43 by faribeir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*ft_line_buffer(int fd, char *stash, char *buffer)
 		readbyte = read(fd, buffer, BUFFER_SIZE);
 		if (readbyte < 0)
 		{
-			free(stash);
 			return (NULL);
 		}
 		else if (readbyte == 0)
@@ -74,7 +73,11 @@ char	*get_next_line(int fd)
 	line = ft_line_buffer(fd, stash, buffer);
 	free(buffer);
 	if (!line)
+	{
+		free(stash);
+		stash = NULL;
 		return (NULL);
+	}
 	stash = ft_line(line);
 	return (line);
 }
@@ -87,7 +90,7 @@ int	main(void)
 	int	i;
 
 	i = 0;
-	fd = open("big_line_with_nl", O_RDONLY);
+	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
 	{
 		perror("Erro ao abrir o ficheiro");

@@ -7,7 +7,7 @@ def garden_operations(operation_number: int) -> None:
         case 2:
             open("/non/existent/file")
         case 3:
-            print( "abc" + 1)
+            print("abc" + 1)
         case _:
             print("Operation completed successfully")
 
