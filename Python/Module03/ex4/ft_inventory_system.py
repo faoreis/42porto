@@ -24,6 +24,8 @@ def display_info(dic: dict[str, int]) -> None:
     print("Item list:", list(dic.keys()))
     total = sum(dic.values())
     print(f'Total quantity of the {len(dic.values())} items: {total}')
+    for key in dic.keys():
+        
 
 
 if __name__ == "__main__":
