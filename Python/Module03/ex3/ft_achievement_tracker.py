@@ -1,8 +1,6 @@
 import random
 
-
-def gen_player_achievements() -> list:
-    achievements = [
+achievements = [
         "Crafting Genius",
         "World Savior",
         "Master Explorer",
@@ -23,25 +21,22 @@ def gen_player_achievements() -> list:
         "Sharpshooter",
         "Healer",
         "Assassin"
-    ]
-    return (achievements)
+]
 
-
-def random_player_achievements() -> set:
-    achievements = gen_player_achievements()
+def gen_player_achievements() -> set:
     p_achievements = []
     a_len = random.randint(1, len(achievements))
     p_achievements = random.sample(achievements, a_len)
     return set(p_achievements)
 
 def player_achievements():
-    alice_achievements = random_player_achievements()
+    alice_achievements = gen_player_achievements()
     print("Player Alice: ", alice_achievements)
-    bob_achievements = random_player_achievements()
+    bob_achievements = gen_player_achievements()
     print("Player Bob: ", bob_achievements)
-    charlie_achievements = random_player_achievements()
+    charlie_achievements = gen_player_achievements()
     print("Player Charlie: ", charlie_achievements)
-    dylan_achievements = random_player_achievements()
+    dylan_achievements = gen_player_achievements()
     print("Player Dylan: ", dylan_achievements)
     union = (
         alice_achievements
@@ -86,19 +81,19 @@ def player_achievements():
     )
     print("\nOnly Dylan has: ", diffd)
     missia = (
-        set(gen_player_achievements()) - alice_achievements
+        set(achievements) - alice_achievements
     )
     print("\nAlice is missing: ", missia)
     missib = (
-        set(gen_player_achievements()) - bob_achievements
+        set(achievements) - bob_achievements
     )
     print("Bob is missing: ", missib)
     missic = (
-        set(gen_player_achievements()) - charlie_achievements
+        set(achievements) - charlie_achievements
     )
     print("Charlie is missing: ", missic)
     missid = (
-        set(gen_player_achievements()) - dylan_achievements
+        set(achievements) - dylan_achievements
     )
     print("Dylan is missing: ", missid)
 
