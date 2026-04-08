@@ -5,7 +5,7 @@ def valid_input(args: list[str]) -> dict[str, int]:
     dic = {}
     for arg in args[1:]:
         if ':' in arg:
-            key , value = arg.split(":", 1)
+            key, value = arg.split(":", 1)
             try:
                 value = int(value)
                 if key in dic.keys():
@@ -16,7 +16,7 @@ def valid_input(args: list[str]) -> dict[str, int]:
                 print(f"Quantity error for '{key}': {error}")
         else:
             print(f"Error - invalid parameter '{arg}'")
-    return(dic)
+    return (dic)
 
 
 def display_info(dic: dict[str, int]) -> None:
@@ -43,8 +43,8 @@ def display_info(dic: dict[str, int]) -> None:
     print(f'Item least abundant: {itemi} with quantity {min}')
     dic.update({'magic_item': 1})
     print("Updated inventory:", dic)
-    
-    
+
+
 if __name__ == "__main__":
     print("=== Inventory System Analysis ===")
     dic = valid_input(sys.argv)

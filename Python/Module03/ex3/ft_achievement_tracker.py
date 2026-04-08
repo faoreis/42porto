@@ -23,11 +23,13 @@ achievements = [
         "Assassin"
 ]
 
+
 def gen_player_achievements() -> set:
     p_achievements = []
     a_len = random.randint(1, len(achievements))
     p_achievements = random.sample(achievements, a_len)
     return set(p_achievements)
+
 
 def player_achievements():
     alice_achievements = gen_player_achievements()
