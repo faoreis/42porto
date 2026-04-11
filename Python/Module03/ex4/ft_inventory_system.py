@@ -2,12 +2,12 @@ import sys
 
 
 def valid_input(args: list[str]) -> dict[str, int]:
-    dic = {}
+    dic: dict[str, int] = {}
     for arg in args[1:]:
         if ':' in arg:
-            key, value = arg.split(":", 1)
+            key, value_arg = arg.split(":", 1)
             try:
-                value = int(value)
+                value = int(value_arg)
                 if key in dic.keys():
                     print(f"Redundant item '{key}' - discarding")
                 else:

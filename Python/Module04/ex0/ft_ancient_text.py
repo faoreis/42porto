@@ -6,7 +6,7 @@ def ft_open_file(file: str) -> None:
         print(f"Accessing file '{file}'")
         file_open = open(file, "r")
         print("---\n")
-        print(f'{file_open.read()}')
+        print(file_open.read())
         file_open.close()
         print(f"\n---\nFile '{file}' closed.")
     except FileNotFoundError as error:

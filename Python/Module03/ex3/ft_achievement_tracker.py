@@ -24,14 +24,14 @@ achievements = [
 ]
 
 
-def gen_player_achievements() -> set:
+def gen_player_achievements() -> set[str]:
     p_achievements = []
     a_len = random.randint(1, len(achievements))
     p_achievements = random.sample(achievements, a_len)
     return set(p_achievements)
 
 
-def player_achievements():
+def player_achievements() -> None:
     alice_achievements = gen_player_achievements()
     print("Player Alice: ", alice_achievements)
     bob_achievements = gen_player_achievements()
@@ -101,5 +101,5 @@ def player_achievements():
 
 
 if __name__ == "__main__":
-    print("=== Achievement Tracker System ===")
+    print("=== Achievement Tracker System ===\n")
     player_achievements()
