@@ -40,63 +40,47 @@ def player_achievements() -> None:
     print("Player Charlie: ", charlie_achievements)
     dylan_achievements = gen_player_achievements()
     print("Player Dylan: ", dylan_achievements)
-    union = (
-        alice_achievements
-        | bob_achievements
-        | charlie_achievements
-        | dylan_achievements
+    union = alice_achievements.union(
+        bob_achievements, charlie_achievements, dylan_achievements
     )
     print("\nAll distinct achievements: ", union)
-    inter = (
-        alice_achievements
-        & bob_achievements
-        & charlie_achievements
-        & dylan_achievements
+    inter = alice_achievements.intersection(
+        bob_achievements,
+        charlie_achievements,
+        dylan_achievements
     )
     print("\nCommon achievements: ", inter)
-    diffa = (
-        alice_achievements
-        - bob_achievements
-        - charlie_achievements
-        - dylan_achievements
+    diffa = alice_achievements.difference(
+        bob_achievements,
+        charlie_achievements,
+        dylan_achievements
     )
     print("\nOnly Alice has: ", diffa)
-    diffb = (
-        bob_achievements
-        - alice_achievements
-        - charlie_achievements
-        - dylan_achievements
+    diffb = bob_achievements.difference(
+        alice_achievements,
+        charlie_achievements,
+        dylan_achievements
     )
     print("\nOnly Bob has: ", diffb)
-    diffc = (
-        charlie_achievements
-        - bob_achievements
-        - alice_achievements
-        - dylan_achievements
+    diffc = charlie_achievements.difference(
+        bob_achievements,
+        alice_achievements,
+        dylan_achievements
     )
     print("\nOnly Charlie has: ", diffc)
-    diffd = (
-        dylan_achievements
-        - bob_achievements
-        - charlie_achievements
-        - alice_achievements
+    diffd = dylan_achievements.difference(
+        bob_achievements,
+        charlie_achievements,
+        alice_achievements
     )
     print("\nOnly Dylan has: ", diffd)
-    missia = (
-        set(achievements) - alice_achievements
-    )
+    missia = set(achievements).difference(alice_achievements)
     print("\nAlice is missing: ", missia)
-    missib = (
-        set(achievements) - bob_achievements
-    )
+    missib = set(achievements).difference(bob_achievements)
     print("Bob is missing: ", missib)
-    missic = (
-        set(achievements) - charlie_achievements
-    )
+    missic = set(achievements).difference(charlie_achievements)
     print("Charlie is missing: ", missic)
-    missid = (
-        set(achievements) - dylan_achievements
-    )
+    missid = set(achievements).difference(dylan_achievements)
     print("Dylan is missing: ", missid)
 
 
