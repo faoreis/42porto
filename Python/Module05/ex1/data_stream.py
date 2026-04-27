@@ -101,78 +101,80 @@ class LogProcessor(DataProcessor):
                 self.index += 1
 
 
-def ft_test_numeric() -> None:
-    print("\nTesting Numeric Processor...")
-    ndata = NumericProcessor()
-    print("Trying to validate input '42':", ndata.validate(42))
-    print("Trying to validate input 'Hello':", ndata.validate("Hello"))
-    print("Test invalid ingestion of string 'foo' without prior validation:")
-    try:
-        ndata.ingest("foo")
-    except Exception as error:
-        print(f"Got exception: {error}")
-    try:
-        nulist = [1, 2, 3, 4, 5]
-        print("Processing data:", nulist)
-        ndata.ingest(nulist)
-        print("Extracting 3 values...")
-        for i in range(3):
-            output = ndata.output()
-            print(f"Numeric value {output[0]}: {output[1]}")
-    except Exception as error:
-        print(f"Got exception: {error}")
+class DataStream():
+    def __init__(self):
+        self.processor = []
+
+    def register_processor(self, proc: DataProcessor) -> None:
+        self.processor.append(proc)
+
+    def process_stream(self, stream: list[Any]) -> None:
+        if not (stream and self.processor):
+            print("No processor found, no data")
+        for item in stream:
+            found = False
+            for proc in self.processor:
+                if proc.validate(item):
+                    proc.ingest(item) 
+                    found = True
+                    break
+            if not found:
+                print(
+                    "DataStream error - Can't process element in stream:", item
+                )
+
+    def print_processors_stats(self) -> None:
+        if self.processor:
+            for proc in self.processor:
+                name = proc.__class__.__name__
+                print(
+                    f'{name}: total {proc.index} items processed, remaining {len(proc.data)} on processor'
+                )
+        else:
+            print("No processor found, no data")
 
 
-def ft_test_text() -> None:
-    print("\nTesting Text Processor...")
-    ndata = TextProcessor()
-    print("Trying to validate input '42':", ndata.validate(42))
-    print("Trying to validate input 'Hello':", ndata.validate("Hello"))
-    print("Test invalid ingestion of string '42' without prior validation:")
-    try:
-        ndata.ingest(42)
-    except Exception as error:
-        print(f"Got exception: {error}")
-    try:
-        nulist = ['Hello', 'Nexus', 'World']
-        print("Processing data:", nulist)
-        ndata.ingest(nulist)
-        print("Extracting 1 value...")
-        for i in range(1):
-            output = ndata.output()
-            print(f"Text value {output[0]}: {output[1]}")
-    except Exception as error:
-        print(f"Got exception: {error}")
-
-
-def ft_test_log() -> None:
-    print("\nTesting Log Processor...")
-    ndata = LogProcessor()
-    print("Trying to validate input '42':", ndata.validate(42))
-    print("Trying to validate input 'Hello':", ndata.validate("Hello"))
-    print("Test invalid ingestion of string '42' without prior validation:")
-    try:
-        ndata.ingest(42)
-    except Exception as error:
-        print(f"Got exception: {error}")
-    try:
-        nulist = [
-            {'log_level': 'NOTICE', 'log_message': 'Connection to server'},
-            {'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}
-        ]
-
-        print("Processing data:", nulist)
-        ndata.ingest(nulist)
-        print("Extracting 2 value...")
-        for i in range(2):
-            output = ndata.output()
-            print(f"Text value {output[0]}: {output[1]}")
-    except Exception as error:
-        print(f"Got exception: {error}")
+def ft_test_stream() -> None:
+    print("\nInitialize Data Stream...")
+    print("== DataStream statistics ==")
+    tstream = DataStream()
+    tstream.print_processors_stats()
+    print("\nRegistering Numeric Processor\n")
+    tstream.register_processor(NumericProcessor())
+    batch = [
+        'Hello world',
+        [3.14, -1, 2.71],
+        [
+            {'log_level': 'WARNING', 'log_message':
+             'Telnet access! Use ssh instead'},
+            {'log_level': 'INFO', 'log_message':
+             'User wil is connected'}
+        ],
+        42,
+        ['Hi', 'five']
+    ]
+    print("Send first batch of data on stream:", batch)
+    tstream.process_stream(batch)
+    print("== DataStream statistics ==")
+    tstream.print_processors_stats()
+    print("\nRegistering other data processors")
+    tstream.register_processor(TextProcessor())
+    tstream.register_processor(LogProcessor())
+    print("Send the same batch again")
+    tstream.process_stream(batch)
+    print("== DataStream statistics ==")
+    tstream.print_processors_stats()
+    print("\nConsume some elements from the data processors: Numeric 3, Text 2, Log 1")
+    for i in range(3):
+        tstream.processor[0].output()
+    for i in range(2):
+        tstream.processor[1].output()
+    for i in range(1):
+        tstream.processor[2].output()
+    print("== DataStream statistics ==")
+    tstream.print_processors_stats()
 
 
 if __name__ == "__main__":
-    print("=== Code Nexus - Data Processor ===")
-    ft_test_numeric()
-    ft_test_text()
-    ft_test_log()
+    print("=== Code Nexus - Data Stream ===")
+    ft_test_stream()
