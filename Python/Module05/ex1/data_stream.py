@@ -90,13 +90,13 @@ class LogProcessor(DataProcessor):
             raise Exception("Improper log data")
         if isinstance(data, dict):
             self.data.append(
-                (self.index, f"{data["log_level"]} : {data["log_message"]}")
+                (self.index, f'{data["log_level"]} : {data["log_message"]}')
             )
             self.index += 1
         else:
             for d in data:
                 self.data.append(
-                    (self.index, f"{d["log_level"]} : {d["log_message"]}")
+                    (self.index, f'{d["log_level"]} : {d["log_message"]}')
                 )
                 self.index += 1
 
@@ -115,7 +115,7 @@ class DataStream():
             found = False
             for proc in self.processor:
                 if proc.validate(item):
-                    proc.ingest(item) 
+                    proc.ingest(item)
                     found = True
                     break
             if not found:
@@ -128,7 +128,8 @@ class DataStream():
             for proc in self.processor:
                 name = proc.__class__.__name__
                 print(
-                    f'{name}: total {proc.index} items processed, remaining {len(proc.data)} on processor'
+                    f'{name}: total {proc.index} items processed, '
+                    f'remaining {len(proc.data)} on processor'
                 )
         else:
             print("No processor found, no data")
@@ -164,7 +165,10 @@ def ft_test_stream() -> None:
     tstream.process_stream(batch)
     print("== DataStream statistics ==")
     tstream.print_processors_stats()
-    print("\nConsume some elements from the data processors: Numeric 3, Text 2, Log 1")
+    print(
+        "\nConsume some elements from the data "
+        "processors: Numeric 3, Text 2, Log 1"
+    )
     for i in range(3):
         tstream.processor[0].output()
     for i in range(2):

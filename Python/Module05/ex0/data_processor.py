@@ -90,13 +90,13 @@ class LogProcessor(DataProcessor):
             raise Exception("Improper log data")
         if isinstance(data, dict):
             self.data.append(
-                (self.index, f"{data["log_level"]} : {data["log_message"]}")
+                (self.index, f'{data["log_level"]} : {data["log_message"]}')
             )
             self.index += 1
         else:
             for d in data:
                 self.data.append(
-                    (self.index, f"{d["log_level"]} : {d["log_message"]}")
+                    (self.index, f'{d["log_level"]} : {d["log_message"]}')
                 )
                 self.index += 1
 
