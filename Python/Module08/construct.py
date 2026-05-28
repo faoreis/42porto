@@ -18,6 +18,7 @@ def display(status: bool) -> None:
         print("source matrix_env/bin/activate # On Unix")
         print("matrix_env\Scripts\activate # On Windows\n")
         print("Then run this program again.")
+print("Then run this program again.")
         
 
 if __name__ == "__main__":
