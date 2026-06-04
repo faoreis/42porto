@@ -2,6 +2,7 @@ import os
 import sys
 import site
 
+
 def display(status: bool) -> None:
     if status:
         print("\nMATRIX STATUS: Welcome to the construct")
@@ -24,7 +25,7 @@ def display(status: bool) -> None:
         print("source matrix_env/bin/activate # On Unix")
         print("matrix_env\\Scripts\\activate # On Windows\n")
         print("Then run this program again.")
-        
+
 
 if __name__ == "__main__":
     venvstatus = sys.prefix != sys.base_prefix

@@ -25,19 +25,18 @@ def ft_check_packages() -> bool:
     return result
 
 
-def run_matrix_analysis():
+def run_matrix_analysis() -> None:
     """Análise simples com scatter plot"""
     import numpy as np
     import pandas as pd
     import matplotlib.pyplot as plt
 
     print("\nAnalyzing Matrix data...")
-    
+
     np.random.seed(42)
     n_samples = 10000
-    
+
     x = np.random.normal(loc=10, scale=2, size=n_samples)
-    y = np.random.normal(loc=50, scale=10, size=n_samples)
 
     print(f"Processing {n_samples} data points...")
 
@@ -46,17 +45,28 @@ def run_matrix_analysis():
     })
 
     print("Generating visualization...")
-    
+
     plt.figure(figsize=(10, 6))
-    plt.hist(df['Eixo x'], bins=30, density=True, alpha=0.6, color='purple', edgecolor='black')
-    
-    plt.title('Distribuição Frequencial dos Dados (Curva Normal)', fontsize=14, fontweight='bold')
+    plt.hist(
+        df['Eixo x'],
+        bins=30,
+        density=True,
+        alpha=0.6,
+        color='purple',
+        edgecolor='black'
+    )
+
+    plt.title(
+        'Distribuição Frequencial dos Dados (Curva Normal)',
+        fontsize=14,
+        fontweight='bold'
+    )
     plt.xlabel('Valores Amostrais (Eixo X)')
     plt.ylabel('Densidade de Probabilidade')
     plt.grid(True, alpha=0.3)
-    
+
     plt.savefig('matrix_analysis.png', dpi=300, bbox_inches='tight')
-    
+
     print("\nAnalysis complete!")
     print("Results saved to: matrix_analysis.png")
 
