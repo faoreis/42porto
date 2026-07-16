@@ -20,14 +20,11 @@ def ft_valid_input(inputlines: list[str], graph: Graph) -> None:
 
     for line in inputlines:
 
-        if line.startswith("nb_drones:") and nbdrones is None:
-            try:
+        try:
+            if line.startswith("nb_drones:") and nbdrones is None:
                 nbdrones = ft_validator_nb_drones(line.split(":", 1)[-1])
-            except ValueError as error:
+        except ValueError as error:
                 print(f"Error input nb_drones: {error}\n")
-        else:
-            raise ValueError("Warning: 'nb_drones' key not found at the start of the file.\n")
-            continue
         
     graph.nb_drones = nbdrones
 
