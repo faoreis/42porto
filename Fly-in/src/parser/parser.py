@@ -1,6 +1,8 @@
 from models.graph import Graph
+from parser.validator import ft_validator_nb_drones
 
 def open_file(file: str) -> list[str]:
+    lines = []
     try:
         with open(file, "r") as content:
             listlines = content.readlines()
@@ -13,24 +15,23 @@ def open_file(file: str) -> list[str]:
     
     return lines
     
-def valid_input(inputlines: list[str], graph: Graph) -> None:
-    ndrones = None
+def ft_valid_input(inputlines: list[str], graph: Graph) -> None:
+    nbdrones = None
 
-    if inputlines[0].startswith("nb_drones:"):
-        try:
-            ndrones = int(inputlines[0].split(":", 1)[-1])
-            if ndrones <= 0:
-                raise ValueError("The number of drones must be greater than 0")
-                
-        except ValueError as error:
-            print(f"Error input nb_drones: {error}\n")
-    else:
-        print("Warning: 'nb_drones' key not found at the start of the file.\n")
+    for line in inputlines:
 
-    for line in inputlines[1:]:
-        pass
+        if line.startswith("nb_drones:") and nbdrones is None:
+            try:
+                nbdrones = ft_validator_nb_drones(line.split(":", 1)[-1])
+            except ValueError as error:
+                print(f"Error input nb_drones: {error}\n")
+        else:
+            raise ValueError("Warning: 'nb_drones' key not found at the start of the file.\n")
+            continue
         
-    graph.nb_drones = ndrones
+    graph.nb_drones = nbdrones
+
+    return graph
 
 def input_file(namefile: str) -> Graph:
     graph = Graph()
@@ -38,5 +39,5 @@ def input_file(namefile: str) -> Graph:
     lines = open_file(namefile)
     for line in lines:
         print(line)
-    valid_input(lines, graph)
+    ft_valid_input(lines, graph)
     return graph
