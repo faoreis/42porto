@@ -6,7 +6,4 @@ def main() -> None:
     print(grap1.nb_drones)
 
 if __name__ == "__main__":
-    import os
-
-    print("CWD:", os.getcwd())
     main()

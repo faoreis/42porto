@@ -19,22 +19,28 @@ def ft_valid_input(inputlines: list[str], graph: Graph) -> None:
     nbdrones = None
 
     for line in inputlines:
-
-        try:
-            if line.startswith("nb_drones:") and nbdrones is None:
-                nbdrones = ft_validator_nb_drones(line.split(":", 1)[-1])
-        except ValueError as error:
-                print(f"Error input nb_drones: {error}\n")
-        
+        if line.startswith("nb_drones:") and nbdrones is None:
+            nbdrones = ft_validator_nb_drones(line.split(":", 1)[-1])
+            
+        if nbdrones is None:
+            raise TypeError("Error input file")
+    
     graph.nb_drones = nbdrones
 
     return graph
 
 def input_file(namefile: str) -> Graph:
     graph = Graph()
-    
-    lines = open_file(namefile)
-    for line in lines:
-        print(line)
-    ft_valid_input(lines, graph)
+    try:
+        lines = open_file(namefile)
+
+        if not lines:
+            raise TypeError("File empty")
+            
+        ft_valid_input(lines, graph)
+    except TypeError as error:
+        print(error)
+        
+    # for line in lines:
+        # print(line)
     return graph
