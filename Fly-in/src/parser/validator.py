@@ -1,7 +1,13 @@
+from exception.inputException import InputError
+
+
 def ft_validator_nb_drones(nb_drones: str) -> int:
-    ndrones = int(nb_drones)
     try:
-        if ndrones <= 0:
-            raise ValueError("The number of drones must be greater than 0")
-    except ValueError as error
-    return ndrones
+        nbrones = int(nb_drones)
+    except ValueError as error:
+        raise InputError(f"nb_drones - {error}")
+
+    if nbrones <= 0:
+        raise InputError("The number of drones must be greater than 0")
+
+    return nbrones
