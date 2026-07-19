@@ -5,3 +5,10 @@ input_key = [
     "hub:",
     "connection:"
 ]
+
+zone_types = [
+    "normal",
+    "blocked",
+    "restricted",
+    "priority"
+]
