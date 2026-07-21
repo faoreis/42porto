@@ -1,5 +1,6 @@
 from exception.inputException import InputError
-from models.graph import Zone, Connection
+import models.graph as graph
+#from models.graph import Zone, Connection
 import data.input_config as input_config
 
 
