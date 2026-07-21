@@ -1,0 +1,1 @@
+from .inputException import InputError

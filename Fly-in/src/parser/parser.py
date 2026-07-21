@@ -1,6 +1,6 @@
-from models.graph import Graph
-from parser.validator import ft_validator_nb_drones, ft_validator_zone, ft_validator_connection, ft_connection_exists
-from exception.inputException import InputError
+from models import Graph
+from exception import InputError
+from .validator import ft_validator_nb_drones, ft_validator_zone, ft_validator_connection, ft_connection_exists
 
 
 def open_file(file: str) -> list[str]:
@@ -66,13 +66,7 @@ def ft_valid_input(inputlines: list[str]) -> None:
 
     graph = Graph(nbdrones, zones, connections)
 
-    for zone in graph.zones:
-        zone.print_zone()
-    
-    for connection in graph.connections:
-        connection.print_connection()
-
-    return None
+    return graph
 
 
 def input_file(namefile: str) -> Graph:

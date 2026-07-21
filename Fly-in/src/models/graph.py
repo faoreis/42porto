@@ -8,7 +8,7 @@ class Graph:
         self.zones.append(zone)
 
 class Zone:
-    def __init__(self, name: str, x: float, y: float, start: bool = False, end: bool = False, color: str = None, max_drones: int = 1, type_zone: str = "normal"):
+    def __init__(self, name: str, x: int, y: int, start: bool = False, end: bool = False, color: str = None, max_drones: int = 1, type_zone: str = "normal"):
         self.name = name
         self.x = x
         self.y = y

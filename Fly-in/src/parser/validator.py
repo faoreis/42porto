@@ -1,6 +1,5 @@
-from exception.inputException import InputError
-import models.graph as graph
-#from models.graph import Zone, Connection
+from exception import InputError
+from models import Zone, Connection
 import data.input_config as input_config
 
 
@@ -60,8 +59,8 @@ def ft_validator_zone(zone: str, start: bool = False, end: bool = False) -> Zone
             color, max_drones, type_zone = ft_validator_metadata_zone(zone_params[4][1:-1])
 
         name = ft_valid_name(zone_params[1])
-        x = zone_params[2]
-        y = zone_params[3]
+        x = int(zone_params[2])
+        y = int(zone_params[3])
     except ValueError as error:
         raise InputError(f'"{zone_params[0]} {zone_params[1]}" format is invalid - {error}')
     
