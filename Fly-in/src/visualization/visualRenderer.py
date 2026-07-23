@@ -8,6 +8,7 @@ class TerminalRenderer:
         self.scale_zone_x = scale_zone_x
         self.scale_zone_y = scale_zone_x // 2
         self.scale_connection = scale_connection
+        self.grid = []
 
     def set_width(self) -> None:
         max_x = max(self.graph.zones, key=lambda z: z.x)
@@ -23,6 +24,28 @@ class TerminalRenderer:
     def clear_terminal(self) -> None:
         print("\x1b[2J\x1b[1;1H", end="")
 
+    def zone_map_cord(self, x: int, y: int):
+        min_x = min(zone.x for zone in self.graph.zones)
+        min_y = min(zone.y for zone in self.graph.zones)
+        offset_x = -min_x
+        offset_y = -min_y
+        
+        draw_x = x + offset_x
+        draw_y = y + offset_y
+        
+        start_x = draw_x  * (self.scale_zone_x + self.scale_connection)
+        start_y = draw_y  * (self.scale_zone_y)
+
+        return (start_x, start_y)
+
+    def connection_map_cord(self, x: int, y: int):
+        connection_x, connection_y = self.zone_map_cord(x, y)
+        connection_x = connection_x + self.scale_zone_x
+        connection_y = connection_y + (self.scale_zone_y // 2)
+
+        return(connection_x, connection_y)
+
+
     def render(self) -> None:
         self.clear_terminal()
         self.set_width()
@@ -32,30 +55,49 @@ class TerminalRenderer:
         GREEN = "\033[48;5;47m"
         RESET = "\033[0m"
 
-        grid = [[" " for _ in range(self.width)] for _ in range(self.height)]
+        self.grid = [[" " for _ in range(self.width)] for _ in range(self.height)]
+
 
         for zone in self.graph.zones:
-            min_x = min(zone.x for zone in self.graph.zones)
-            min_y = min(zone.y for zone in self.graph.zones)
-            
-            offset_x = -min_x
-            offset_y = -min_y
-            
-            draw_x = zone.x + offset_x
-            draw_y = zone.y + offset_y
-            
-            start_x = draw_x  * (self.scale_zone_x + self.scale_connection)
-            start_y = draw_y  * (self.scale_zone_y)
+            start_x , start_y = self.zone_map_cord(zone.x, zone.y)
 
             for y in range(self.scale_zone_y):
                 for x in range(self.scale_zone_x):
-                    grid[start_y + y][start_x + x] = f"{GREEN} {RESET}"
+                    self.grid[start_y + y][start_x + x] = f"{GREEN} {RESET}"
 
-                if y == 1 and not zone.end:
-                    for i in range(self.scale_connection):
-                        grid[start_y + 1][start_x + self.scale_zone_x + i] = "-"
 
-        for row in grid:
+        zones_by_name = {zone.name: zone for zone in self.graph.zones}
+
+        for connection in self.graph.connections:
+            zone1 = zones_by_name[connection.zone1]
+            zone2 = zones_by_name[connection.zone2]
+
+            if zone2.x > zone1.x:
+                start = zone1
+                end = zone2
+            else:
+                start = zone2
+                end = zone1
+
+            start_x, start_y = self.connection_map_cord(start.x, start.y)
+            end_x, end_y = self.connection_map_cord(end.x, end.y)
+            end_x -= self.scale_zone_x 
+
+            if start_y == end_y:
+                    for i in range(end_x - start_x):
+                        self.grid[start_y][start_x + i] = "-"
+            elif start_y < end_y:
+                self.grid[start_y][start_x] = "-"
+                i = 0
+                while i <= end_y - start_y:
+                    self.grid[start_y + i][start_x + i + 1] = "\\"
+                    i += 1
+                y = start_x + i
+                while y < end_x:
+                    self.grid[start_y + (i - 1)][y] = "-"
+                    y += 1
+
+        for row in self.grid:
             print("".join(row))
 
         print("\033[0m")
