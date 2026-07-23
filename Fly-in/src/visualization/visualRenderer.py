@@ -27,6 +27,7 @@ class TerminalRenderer:
         self.clear_terminal()
         self.set_width()
         self.set_height()
+        
 
         GREEN = "\033[48;5;47m"
         RESET = "\033[0m"
@@ -34,8 +35,17 @@ class TerminalRenderer:
         grid = [[" " for _ in range(self.width)] for _ in range(self.height)]
 
         for zone in self.graph.zones:
-            start_x = zone.x * (self.scale_zone_x + self.scale_connection)
-            start_y = zone.y * (self.scale_zone_y)
+            min_x = min(zone.x for zone in self.graph.zones)
+            min_y = min(zone.y for zone in self.graph.zones)
+            
+            offset_x = -min_x
+            offset_y = -min_y
+            
+            draw_x = zone.x + offset_x
+            draw_y = zone.y + offset_y
+            
+            start_x = draw_x  * (self.scale_zone_x + self.scale_connection)
+            start_y = draw_y  * (self.scale_zone_y)
 
             for y in range(self.scale_zone_y):
                 for x in range(self.scale_zone_x):
