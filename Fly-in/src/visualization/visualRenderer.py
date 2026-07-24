@@ -95,18 +95,21 @@ class TerminalRenderer:
                     i += 1
                 y = start_x + i + 1
                 while y < end_x:
-                    self.grid[start_y + (i - 1)][y] = "_"
+                    self.grid[start_y + (i - 1)][y] = "\u2594"
                     y += 1
             elif end_y < start_y:
-                self.grid[start_y][start_x] = "\u2594"
-                i = 1
+                if self.grid[start_y][start_x] == " ":
+                    self.grid[start_y][start_x] = "_"
+                    i = 0
+                else:
+                    i = 1
                 while i <= start_y - end_y:
-                    self.grid[start_y - i][start_x + i] = "/"
+                    self.grid[start_y - i][start_x + i +1] = "/"
                     i += 1
-                y = start_x + i + 1
-                while y > end_x:
-                    self.grid[end_y][y] = "_"
-                    y -= 1
+                y = start_x + i
+                while y < end_x:
+                    self.grid[end_y][y] = "\u2594"
+                    y += 1
 
         for row in self.grid:
             print("".join(row))
