@@ -82,20 +82,31 @@ class TerminalRenderer:
             start_x, start_y = self.connection_map_cord(start.x, start.y)
             end_x, end_y = self.connection_map_cord(end.x, end.y)
             end_x -= self.scale_zone_x 
-
+            if(connection.zone1 == "path_b" or connection.zone2 == "path_b"):
+                print(f"{connection.zone1} - {connection.zone2} | {end_x},{end_y} - {start_x}{start_y}")
             if start_y == end_y:
                     for i in range(end_x - start_x):
                         self.grid[start_y][start_x + i] = "-"
             elif start_y < end_y:
-                self.grid[start_y][start_x] = "-"
+                self.grid[start_y][start_x] = "\u2594"
                 i = 0
                 while i <= end_y - start_y:
-                    self.grid[start_y + i][start_x + i + 1] = "\\"
+                    self.grid[start_y + i][start_x + i +1] = "\\"
                     i += 1
-                y = start_x + i
+                y = start_x + i + 1
                 while y < end_x:
-                    self.grid[start_y + (i - 1)][y] = "-"
+                    self.grid[start_y + (i - 1)][y] = "_"
                     y += 1
+            elif end_y < start_y:
+                self.grid[start_y][start_x] = "\u2594"
+                i = 1
+                while i <= start_y - end_y:
+                    self.grid[start_y - i][start_x + i] = "/"
+                    i += 1
+                y = start_x + i + 1
+                while y > end_x:
+                    self.grid[end_y][y] = "_"
+                    y -= 1
 
         for row in self.grid:
             print("".join(row))
