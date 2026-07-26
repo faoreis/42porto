@@ -7,6 +7,9 @@ class Graph:
     def add_zone(self, zone: Zone):
         self.zones.append(zone)
 
+    def found_start_zone(self):
+        return next(zone for zone in self.zones if zone.start)
+
 class Zone:
     def __init__(self, name: str, x: int, y: int, start: bool = False, end: bool = False, color: str = None, max_drones: int = 1, type_zone: str = "normal"):
         self.name = name
