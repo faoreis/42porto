@@ -5,14 +5,9 @@ from models import Simulation
 def main() -> None:
     graph = input_file("data/maps/easy/01_linear_path.txt")
     simulation = Simulation(graph)
-    renderer = TerminalRenderer(simulation, 6, 8)
+    renderer = TerminalRenderer(graph, 6, 8)
 
-    caminho = simulation.bfs()
-    drone = simulation.drones[0]
-    for c in caminho:
-        simulation.move_drone(drone, c)
-        renderer.render()
-        input()
+    simulation.run(renderer)
 
     #Teste mover automatico
     # drone = simulation.drones[0]

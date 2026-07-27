@@ -4,3 +4,5 @@ class Drone:
     def __init__(self, id: int, zone: Zone):
         self.id = id
         self.zone = zone
+        self.path = []
+        self.finished = False

@@ -30,6 +30,9 @@ class Zone:
     def print_zone(self):
         print(f"Zone: {self.name}, Coordinates: ({self.x}, {self.y}), Start: {self.start}, End: {self.end}, Color: {self.color}, Max Drones: {self.max_drones}, Type: {self.type_zone}")
 
+    def get_max_drones(self) -> int:
+        return self.max_drones
+
 class Connection:
     def __init__(self, zone1: str, zone2: str, max_connections: int):
         self.zone1 = zone1

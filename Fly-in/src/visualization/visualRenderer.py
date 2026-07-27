@@ -1,8 +1,12 @@
-from models import Simulation
+from models import Graph
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from models import Simulation
 
 class TerminalRenderer:
-    def __init__(self, simulation: Simulation, scale_zone_x: int = 6, scale_connection: int = 8) -> None:
-        self.simulation = simulation
+    def __init__(self, graph: Graph, scale_zone_x: int = 6, scale_connection: int = 8) -> None:
+        self.graph = graph
         self.width = 0
         self.height = 0
         self.scale_zone_x = scale_zone_x
@@ -11,11 +15,11 @@ class TerminalRenderer:
         self.grid = []
 
     def set_width(self) -> None:
-        max_x = max(self.simulation.graph.zones, key=lambda z: z.x)
+        max_x = max(self.graph.zones, key=lambda z: z.x)
         self.width = ((max_x.x + 1) * self.scale_zone_x) + (max_x.x * self.scale_connection)
 
     def set_height(self) -> None:
-        max_y = max(self.simulation.graph.zones, key=lambda z: z.y)
+        max_y = max(self.graph.zones, key=lambda z: z.y)
         if max_y.y == 0:
             self.height = self.scale_zone_y + 1
         else:
@@ -25,8 +29,8 @@ class TerminalRenderer:
         print("\x1b[2J\x1b[1;1H", end="")
 
     def zone_map_cord(self, x: int, y: int):
-        min_x = min(zone.x for zone in self.simulation.graph.zones)
-        min_y = min(zone.y for zone in self.simulation.graph.zones)
+        min_x = min(zone.x for zone in self.graph.zones)
+        min_y = min(zone.y for zone in self.graph.zones)
         offset_x = -min_x
         offset_y = -min_y
         
@@ -46,7 +50,7 @@ class TerminalRenderer:
         return(connection_x, connection_y)
 
 
-    def render(self) -> None:
+    def render(self, simulation: Simulation) -> None:
         self.clear_terminal()
         self.set_width()
         self.set_height()
@@ -58,7 +62,7 @@ class TerminalRenderer:
         self.grid = [[" " for _ in range(self.width)] for _ in range(self.height)]
 
 
-        for zone in self.simulation.graph.zones:
+        for zone in self.graph.zones:
             start_x , start_y = self.zone_map_cord(zone.x, zone.y)
 
             for y in range(self.scale_zone_y):
@@ -69,9 +73,9 @@ class TerminalRenderer:
                 self.grid[start_y + self.scale_zone_y][start_x + i] = zone.name[i]
 
 
-        zones_by_name = {zone.name: zone for zone in self.simulation.graph.zones}
+        zones_by_name = {zone.name: zone for zone in self.graph.zones}
 
-        for connection in self.simulation.graph.connections:
+        for connection in self.graph.connections:
             zone1 = zones_by_name[connection.zone1]
             zone2 = zones_by_name[connection.zone2]
 
@@ -115,15 +119,15 @@ class TerminalRenderer:
                     self.grid[end_y][x] = "\u2594"
                     x += 1
 
-        self.draw_drones()
+        self.draw_drones(simulation)
 
         for row in self.grid:
             print("".join(row))
 
-    def draw_drones(self):
-        for drone in self.simulation.drones:
+    def draw_drones(self, simulation: Simulation) -> None:
+        for drone in simulation.drones:
             zone = drone.zone
-            nb_drones_zone = self.simulation.drones_in_zone(zone)
+            nb_drones_zone = simulation.drones_in_zone(zone)
 
             start_x, start_y = self.zone_map_cord(zone.x, zone.y)
 
