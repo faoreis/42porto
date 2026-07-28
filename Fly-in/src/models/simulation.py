@@ -58,7 +58,7 @@ class Simulation:
 
             next_zone = drone.path[drone.index + 1]
 
-            if next_zone.get_max_drones() > len(self.drones_in_zone(next_zone)):
+            if next_zone.get_max_drones() > len(self.drones_in_zone(next_zone)) or next_zone.end:
                 self.move_drone(drone, next_zone)
                 drone.index += 1
 

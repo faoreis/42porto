@@ -1,5 +1,6 @@
 from models import Graph
 from typing import TYPE_CHECKING
+import data.input_config.input_structure as input_config
 
 if TYPE_CHECKING:
     from models import Simulation
@@ -54,20 +55,20 @@ class TerminalRenderer:
         self.clear_terminal()
         self.set_width()
         self.set_height()
-        
-
-        GREEN = "\033[48;5;47m"
-        RESET = "\033[0m"
 
         self.grid = [[" " for _ in range(self.width)] for _ in range(self.height)]
 
 
         for zone in self.graph.zones:
+            color_zone = input_config.ANSI_COLORS_NAMES.get(zone.color, 15)
+            color = f"\033[48;5;{color_zone}m"
+            reset = "\033[0m"
+
             start_x , start_y = self.zone_map_cord(zone.x, zone.y)
 
             for y in range(self.scale_zone_y):
                 for x in range(self.scale_zone_x):
-                    self.grid[start_y + y][start_x + x] = f"{GREEN} {RESET}"
+                    self.grid[start_y + y][start_x + x] = f"{color} {reset}"
             i = 0
             for i in range(len(zone.name)):
                 self.grid[start_y + self.scale_zone_y][start_x + i] = zone.name[i]

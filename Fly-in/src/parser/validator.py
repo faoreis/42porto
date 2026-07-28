@@ -1,6 +1,6 @@
 from exception import InputError
 from models import Zone, Connection
-import data.input_config as input_config
+import data.input_config.input_structure as input_config
 
 
 def ft_validator_nb_drones(line: str) -> int:
@@ -30,7 +30,7 @@ def ft_validator_metadata_zone(metadata: str) -> tuple[str, int, str]:
 
     for param in metadata_params:
         if param.startswith("color="):
-            color = param.split("=")[-1]
+            color = param.split("=")[-1].lower()
         elif param.startswith("max_drones="):
             try:
                 max_drones = int(param.split("=")[-1])
@@ -50,8 +50,8 @@ def ft_validator_zone(zone: str, start: bool = False, end: bool = False) -> Zone
     type_zone = "normal"
 
     try:
-        zone_params = zone.strip().split(" ")
-
+        zone_params = zone.strip().split(" ", 4)
+        print(zone_params[4])
         if len(zone_params) > 4:
             if not(zone_params[4].startswith("[") and zone_params[4].endswith("]")):
                 raise InputError(f'"{zone_params[0]} {zone_params[1]}" format is invalid - Extra parameters found"')
