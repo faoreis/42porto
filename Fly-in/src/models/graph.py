@@ -1,14 +1,3 @@
-class Graph:
-    def __init__(self, nb_drones: int, zones: list[Zone], connections: list[Connection]):
-        self.nb_drones = nb_drones
-        self.zones = zones
-        self.connections = connections
-
-    def add_zone(self, zone: Zone):
-        self.zones.append(zone)
-
-    def found_start_zone(self):
-        return next(zone for zone in self.zones if zone.start)
 
 class Zone:
     def __init__(self, name: str, x: int, y: int, start: bool = False, end: bool = False, color: str = None, max_drones: int = 1, type_zone: str = "normal"):
@@ -33,6 +22,7 @@ class Zone:
     def get_max_drones(self) -> int:
         return self.max_drones
 
+
 class Connection:
     def __init__(self, zone1: str, zone2: str, max_connections: int):
         self.zone1 = zone1
@@ -44,4 +34,19 @@ class Connection:
 
     def print_connection(self):
         print(f"Connection: {self.zone1} -> {self.zone2}, Max Connections: {self.max_connections}")
+
+
+class Graph:
+    def __init__(self, nb_drones: int, zones: list[Zone], connections: list[Connection]):
+        self.nb_drones = nb_drones
+        self.zones = zones
+        self.connections = connections
+
+    def add_zone(self, zone: Zone):
+        self.zones.append(zone)
+
+    def found_start_zone(self):
+        return next(zone for zone in self.zones if zone.start)
+
+
 

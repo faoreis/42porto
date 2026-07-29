@@ -1,7 +1,7 @@
 from .graph import Graph, Zone
 from .drone import Drone
 from collections import deque
-from visualization import TerminalRenderer
+
 
 class Simulation:
     def __init__(self, graph: Graph):
@@ -86,15 +86,5 @@ class Simulation:
                     visited.add(neighbor)
                     queue.append(neighbor)
 
-    def run(self, renderer: TerminalRenderer) -> None:
-        renderer.render(self)
-        input("Iniciar...")
-        self.prepare()
-
-        while not self.finished():
-            self.step()
-
-            renderer.render(self)
-            input()
 
 

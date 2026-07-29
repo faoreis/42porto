@@ -1,9 +1,7 @@
-from models import Graph
+from models import Graph, Simulation
 from typing import TYPE_CHECKING
 import data.input_config.input_structure as input_config
 
-if TYPE_CHECKING:
-    from models import Simulation
 
 class TerminalRenderer:
     def __init__(self, graph: Graph, scale_zone_x: int = 6, scale_connection: int = 8) -> None:
@@ -18,14 +16,14 @@ class TerminalRenderer:
 
     def set_width(self) -> None:
         max_x = max(self.graph.zones, key=lambda z: z.x)
-        self.width = ((max_x.x + 1) * self.scale_zone_x) + (max_x.x * self.scale_connection)
+        self.width = ((max_x.x + 1) * self.scale_zone_x) + (max_x.x * self.scale_connection) + 100
 
     def set_height(self) -> None:
         max_y = max(self.graph.zones, key=lambda z: z.y)
         if max_y.y == 0:
             self.height = self.scale_zone_y + self.separator
         else:
-            self.height = (max_y.y * (self.scale_zone_y)) + (max_y.y  * self.scale_connection) + self.separator + 1
+            self.height = (max_y.y * (self.scale_zone_y)) + (max_y.y  * self.scale_connection) + self.separator  + 1
 
     def clear_terminal(self) -> None:
         print("\x1b[2J\x1b[1;1H", end="")
@@ -44,7 +42,7 @@ class TerminalRenderer:
 
         if start_y > 0:
             start_y = start_y + (draw_y * self.separator)
-        print(start_y)
+
         return (start_x, start_y)
 
     def connection_map_cord(self, x: int, y: int):
@@ -95,8 +93,16 @@ class TerminalRenderer:
             end_x, end_y = self.connection_map_cord(end.x, end.y)
 
             end_x -= self.scale_zone_x 
-
-            if start_y == end_y:
+            if start.x == end.x:
+                print(f"start_y: {start.name}, end_x: {end.name}")
+                if start_y > end_y:
+                    cstart_x, cstart_y = self.zone_map_cord(start.x, start.y)
+                    cend_x, cend_y = self.zone_map_cord(end.x, end.y)
+                    i = 0
+                    #while i < cstart_y - (cend_y - self.scale_zone_y - 2):
+                    self.grid[cstart_y - 1][cstart_x + (self.scale_zone_x // 2) - 1] = "|"
+                    #    i += 1
+            elif start_y == end_y:
                     for i in range(end_x - start_x):
                         self.grid[start_y][start_x + i] = "\u2594"
 
@@ -140,5 +146,6 @@ class TerminalRenderer:
             drone_y = start_y + self.scale_zone_y // 2
 
             self.grid[drone_y][drone_x - 1] = "D"
-            self.grid[drone_y][drone_x] = str(len(nb_drones_zone))
+            #self.grid[drone_y][drone_x] = str(len(nb_drones_zone))
+            self.grid[drone_y][drone_x] = str(1)
 

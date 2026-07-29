@@ -5,10 +5,19 @@ from models import Simulation
 def main() -> None:
     #graph = input_file("data/maps/easy/02_simple_fork.txt")
     graph = input_file("data/maps/hard/01_maze_nightmare.txt")
+    graph = input_file("data/maps/challenger/01_the_impossible_dream.txt")
     simulation = Simulation(graph)
-    renderer = TerminalRenderer(graph, 6, 12)
+    renderer = TerminalRenderer(graph, 4, 8)
 
-    simulation.run(renderer)
+    renderer.render(simulation)
+    input("Iniciar...")
+    simulation.prepare()
+
+    while not simulation.finished():
+        simulation.step()
+
+        renderer.render(simulation)
+        input()
 
     #Teste mover automatico
     # drone = simulation.drones[0]
