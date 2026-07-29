@@ -51,7 +51,7 @@ def ft_validator_zone(zone: str, start: bool = False, end: bool = False) -> Zone
 
     try:
         zone_params = zone.strip().split(" ", 4)
-        print(zone_params[4])
+
         if len(zone_params) > 4:
             if not(zone_params[4].startswith("[") and zone_params[4].endswith("]")):
                 raise InputError(f'"{zone_params[0]} {zone_params[1]}" format is invalid - Extra parameters found"')

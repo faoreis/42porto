@@ -3,10 +3,10 @@ from visualization import TerminalRenderer
 from models import Simulation
 
 def main() -> None:
-    graph = input_file("data/maps/easy/02_simple_fork.txt")
-    #graph = input_file("data/maps/hard/01_maze_nightmare.txt")
+    #graph = input_file("data/maps/easy/02_simple_fork.txt")
+    graph = input_file("data/maps/hard/01_maze_nightmare.txt")
     simulation = Simulation(graph)
-    renderer = TerminalRenderer(graph, 6, 8)
+    renderer = TerminalRenderer(graph, 6, 12)
 
     simulation.run(renderer)
 

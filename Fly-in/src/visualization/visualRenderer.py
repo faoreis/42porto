@@ -13,6 +13,7 @@ class TerminalRenderer:
         self.scale_zone_x = scale_zone_x
         self.scale_zone_y = scale_zone_x // 2
         self.scale_connection = scale_connection
+        self.separator = 3
         self.grid = []
 
     def set_width(self) -> None:
@@ -22,9 +23,9 @@ class TerminalRenderer:
     def set_height(self) -> None:
         max_y = max(self.graph.zones, key=lambda z: z.y)
         if max_y.y == 0:
-            self.height = self.scale_zone_y + 1
+            self.height = self.scale_zone_y + self.separator
         else:
-            self.height = (max_y.y * (self.scale_zone_y)) + (max_y.y  * self.scale_connection) + 1
+            self.height = (max_y.y * (self.scale_zone_y)) + (max_y.y  * self.scale_connection) + self.separator + 1
 
     def clear_terminal(self) -> None:
         print("\x1b[2J\x1b[1;1H", end="")
@@ -41,6 +42,9 @@ class TerminalRenderer:
         start_x = draw_x  * (self.scale_zone_x + self.scale_connection)
         start_y = draw_y  * (self.scale_zone_y)
 
+        if start_y > 0:
+            start_y = start_y + (draw_y * self.separator)
+        print(start_y)
         return (start_x, start_y)
 
     def connection_map_cord(self, x: int, y: int):
