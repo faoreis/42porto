@@ -94,14 +94,20 @@ class TerminalRenderer:
 
             end_x -= self.scale_zone_x 
             if start.x == end.x:
-                print(f"start_y: {start.name}, end_x: {end.name}")
                 if start_y > end_y:
                     cstart_x, cstart_y = self.zone_map_cord(start.x, start.y)
                     cend_x, cend_y = self.zone_map_cord(end.x, end.y)
                     i = 0
-                    #while i < cstart_y - (cend_y - self.scale_zone_y - 2):
-                    self.grid[cstart_y - 1][cstart_x + (self.scale_zone_x // 2) - 1] = "|"
-                    #    i += 1
+                    while i < ((cstart_y - cend_y) - self.scale_zone_y - 1):
+                        self.grid[cstart_y - 1 - i][cstart_x + (self.scale_zone_x // 2) - 1] = "|"
+                        i += 1
+                if start_y < end_y:
+                    cstart_x, cstart_y = self.zone_map_cord(start.x, start.y)
+                    cend_x, cend_y = self.zone_map_cord(end.x, end.y)
+                    i = 0
+                    while i < ((cend_y - (start_y + self.scale_zone_y))):
+                        self.grid[cstart_y + self.scale_zone_y + 1 + i][cstart_x + (self.scale_zone_x // 2) - 1] = "|"
+                        i += 1
             elif start_y == end_y:
                     for i in range(end_x - start_x):
                         self.grid[start_y][start_x + i] = "\u2594"
