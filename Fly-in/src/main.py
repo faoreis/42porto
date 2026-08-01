@@ -4,10 +4,12 @@ from models import Simulation
 
 def main() -> None:
     #graph = input_file("data/maps/easy/02_simple_fork.txt")
-    #graph = input_file("data/maps/hard/01_maze_nightmare.txt")
-    graph = input_file("data/maps/challenger/01_the_impossible_dream.txt")
+    graph = input_file("data/maps/hard/01_maze_nightmare.txt")
+    #graph = input_file("data/maps/challenger/01_the_impossible_dream.txt")
     simulation = Simulation(graph)
     renderer = TerminalRenderer(graph, 6, 12)
+
+    renderer.render_test()
 
     renderer.render(simulation)
     input("Iniciar...")

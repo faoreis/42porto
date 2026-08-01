@@ -1,6 +1,7 @@
 from models import Graph, Simulation
 from typing import TYPE_CHECKING
 import data.input_config.input_structure as input_config
+from .pathFinder import PathFinder
 
 
 class TerminalRenderer:
@@ -11,8 +12,9 @@ class TerminalRenderer:
         self.scale_zone_x = scale_zone_x
         self.scale_zone_y = scale_zone_x // 2
         self.scale_connection = scale_connection
-        self.separator = 3
+        self.separator = 4
         self.grid = []
+        self.grid_test = []
 
     def set_width(self) -> None:
         max_x = max(self.graph.zones, key=lambda z: z.x)
@@ -51,6 +53,96 @@ class TerminalRenderer:
         connection_y = connection_y + (self.scale_zone_y // 2)
 
         return(connection_x, connection_y)
+
+
+    def render_test(self) -> None:
+        self.clear_terminal()
+        self.set_width()
+        self.set_height()
+
+        self.grid_test = [["." for _ in range(self.width)] for _ in range(self.height)]
+
+
+        for zone in self.graph.zones:
+            color_zone = input_config.ANSI_COLORS_NAMES.get(zone.color, 15)
+            color = f"\033[48;5;{color_zone}m"
+            reset = "\033[0m"
+
+            start_x , start_y = self.zone_map_cord(zone.x, zone.y)
+
+            for y in range(self.scale_zone_y):
+                for x in range(self.scale_zone_x):
+                    self.grid_test[start_y + y][start_x + x] = f"X"
+            i = 0
+            for i in range(len(zone.name)):
+                self.grid_test[start_y + self.scale_zone_y][start_x + i] = "S"
+
+        zones_by_name = {zone.name: zone for zone in self.graph.zones}
+        connection_finder = PathFinder(self.grid_test, self.width, self.height)      
+
+        for connection in self.graph.connections:
+            connection_finder.set_grid(self.grid_test)
+            zone1 = zones_by_name[connection.zone1]
+            zone2 = zones_by_name[connection.zone2]
+
+            if zone2.x > zone1.x:
+                start = zone1
+                end = zone2
+            else:
+                start = zone2
+                end = zone1
+
+            start_x, start_y = self.connection_map_cord(start.x, start.y)
+            end_x, end_y = self.connection_map_cord(end.x, end.y)
+
+            end_x -= self.scale_zone_x +1
+
+            path_connection = connection_finder.find_path((start_x, start_y), (end_x, end_y))
+
+            for i in range(len(path_connection)):
+                current = path_connection[i]
+                if current is None:
+                    continue
+
+                if i < len(path_connection) - 1:
+                    next_cell = path_connection[i + 1]
+                else:
+                    next_cell = None
+
+                if i > 0:
+                    previous = path_connection[i - 1]
+                else:
+                    previous = None
+                print(current)
+                if previous is None or next_cell is None:
+                    self.grid_test[current[1]][current[0]] = "─"
+                    continue
+
+                dx1 = current[0] - previous[0]
+                dy1 = current[1] - previous[1]
+
+                dx2 = next_cell[0] - current[0]
+                dy2 = next_cell[1] - current[1]
+                
+
+                if dy1 == 0 and dy2 == 0:
+                    self.grid_test[current[1]][current[0]] = "─"
+                elif dx1 == 0 and dx2 == 0:
+                    self.grid_test[current[1]][current[0]] = "│"
+                elif (dx1, dy1, dx2, dy2) in [(-1,0,0,1), (0,-1,1,0)]:
+                    self.grid_test[current[1]][current[0]] = "┌"
+                elif (dx1, dy1, dx2, dy2) in [(-1,0,0,-1), (0,1,1,0)]:
+                    self.grid_test[current[1]][current[0]] = "┐"
+                elif (dx1, dy1, dx2, dy2) in [(1,0,0,1), (0,-1,-1,0)]:
+                    self.grid_test[current[1]][current[0]] = "└"
+                elif (dx1, dy1, dx2, dy2) in [(1,0,0,-1), (0,1,-1,0)]:
+                    self.grid_test[current[1]][current[0]] = "┘"
+
+        
+        for row in self.grid_test:
+            print("".join(row))
+
+
 
 
     def render(self, simulation: Simulation) -> None:
