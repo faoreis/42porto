@@ -11,7 +11,7 @@ class PathFinder:
         self.grid = grid
 
 
-    def neighbours(self, x, y):
+    def neighbours(self, x: int, y: int, endx: int, endy: int):
         directions = [
             (1,0),
             (-1,0),
@@ -25,7 +25,7 @@ class PathFinder:
             ny = y + dy
 
             if 0 <= nx < self.width and 0 <= ny < self.height:
-                if self.grid[ny][nx] == ".":
+                if self.grid[ny][nx] == " " or (nx, ny) == (endx, endy):
                     yield (nx, ny)
 
     
@@ -40,7 +40,7 @@ class PathFinder:
             if current == end:
                 break
 
-            for neighbour in self.neighbours(*current):
+            for neighbour in self.neighbours(*current, *end):
                 if neighbour not in visited:
                     visited.add(neighbour)
                     parent[neighbour] = current

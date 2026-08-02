@@ -12,13 +12,12 @@ class TerminalRenderer:
         self.scale_zone_x = scale_zone_x
         self.scale_zone_y = scale_zone_x // 2
         self.scale_connection = scale_connection
-        self.separator = 4
+        self.separator = 5
         self.grid = []
-        self.grid_test = []
 
     def set_width(self) -> None:
         max_x = max(self.graph.zones, key=lambda z: z.x)
-        self.width = ((max_x.x + 1) * self.scale_zone_x) + (max_x.x * self.scale_connection) + 100
+        self.width = ((max_x.x) * self.scale_zone_x) + (max_x.x * self.scale_connection) + len(max_x.name)
 
     def set_height(self) -> None:
         max_y = max(self.graph.zones, key=lambda z: z.y)
@@ -55,96 +54,6 @@ class TerminalRenderer:
         return(connection_x, connection_y)
 
 
-    def render_test(self) -> None:
-        self.clear_terminal()
-        self.set_width()
-        self.set_height()
-
-        self.grid_test = [["." for _ in range(self.width)] for _ in range(self.height)]
-
-
-        for zone in self.graph.zones:
-            color_zone = input_config.ANSI_COLORS_NAMES.get(zone.color, 15)
-            color = f"\033[48;5;{color_zone}m"
-            reset = "\033[0m"
-
-            start_x , start_y = self.zone_map_cord(zone.x, zone.y)
-
-            for y in range(self.scale_zone_y):
-                for x in range(self.scale_zone_x):
-                    self.grid_test[start_y + y][start_x + x] = f"X"
-            i = 0
-            for i in range(len(zone.name)):
-                self.grid_test[start_y + self.scale_zone_y][start_x + i] = "S"
-
-        zones_by_name = {zone.name: zone for zone in self.graph.zones}
-        connection_finder = PathFinder(self.grid_test, self.width, self.height)      
-
-        for connection in self.graph.connections:
-            connection_finder.set_grid(self.grid_test)
-            zone1 = zones_by_name[connection.zone1]
-            zone2 = zones_by_name[connection.zone2]
-
-            if zone2.x > zone1.x:
-                start = zone1
-                end = zone2
-            else:
-                start = zone2
-                end = zone1
-
-            start_x, start_y = self.connection_map_cord(start.x, start.y)
-            end_x, end_y = self.connection_map_cord(end.x, end.y)
-
-            end_x -= self.scale_zone_x +1
-
-            path_connection = connection_finder.find_path((start_x, start_y), (end_x, end_y))
-
-            for i in range(len(path_connection)):
-                current = path_connection[i]
-                if current is None:
-                    continue
-
-                if i < len(path_connection) - 1:
-                    next_cell = path_connection[i + 1]
-                else:
-                    next_cell = None
-
-                if i > 0:
-                    previous = path_connection[i - 1]
-                else:
-                    previous = None
-                print(current)
-                if previous is None or next_cell is None:
-                    self.grid_test[current[1]][current[0]] = "─"
-                    continue
-
-                dx1 = current[0] - previous[0]
-                dy1 = current[1] - previous[1]
-
-                dx2 = next_cell[0] - current[0]
-                dy2 = next_cell[1] - current[1]
-                
-
-                if dy1 == 0 and dy2 == 0:
-                    self.grid_test[current[1]][current[0]] = "─"
-                elif dx1 == 0 and dx2 == 0:
-                    self.grid_test[current[1]][current[0]] = "│"
-                elif (dx1, dy1, dx2, dy2) in [(-1,0,0,1), (0,-1,1,0)]:
-                    self.grid_test[current[1]][current[0]] = "┌"
-                elif (dx1, dy1, dx2, dy2) in [(-1,0,0,-1), (0,1,1,0)]:
-                    self.grid_test[current[1]][current[0]] = "┐"
-                elif (dx1, dy1, dx2, dy2) in [(1,0,0,1), (0,-1,-1,0)]:
-                    self.grid_test[current[1]][current[0]] = "└"
-                elif (dx1, dy1, dx2, dy2) in [(1,0,0,-1), (0,1,-1,0)]:
-                    self.grid_test[current[1]][current[0]] = "┘"
-
-        
-        for row in self.grid_test:
-            print("".join(row))
-
-
-
-
     def render(self, simulation: Simulation) -> None:
         self.clear_terminal()
         self.set_width()
@@ -162,15 +71,16 @@ class TerminalRenderer:
 
             for y in range(self.scale_zone_y):
                 for x in range(self.scale_zone_x):
-                    self.grid[start_y + y][start_x + x] = f"{color} {reset}"
+                    self.grid[start_y + y][start_x + x] = f"X"
             i = 0
             for i in range(len(zone.name)):
-                self.grid[start_y + self.scale_zone_y][start_x + i] = zone.name[i]
-
+                self.grid[start_y + self.scale_zone_y][start_x + i] = "S"
 
         zones_by_name = {zone.name: zone for zone in self.graph.zones}
+        connection_finder = PathFinder(self.grid, self.width, self.height)      
 
         for connection in self.graph.connections:
+            connection_finder.set_grid(self.grid)
             zone1 = zones_by_name[connection.zone1]
             zone2 = zones_by_name[connection.zone2]
 
@@ -183,55 +93,72 @@ class TerminalRenderer:
 
             start_x, start_y = self.connection_map_cord(start.x, start.y)
             end_x, end_y = self.connection_map_cord(end.x, end.y)
+            if start.x != end.x:
+                end_x -= self.scale_zone_x +1
 
-            end_x -= self.scale_zone_x 
-            if start.x == end.x:
-                if start_y > end_y:
-                    cstart_x, cstart_y = self.zone_map_cord(start.x, start.y)
-                    cend_x, cend_y = self.zone_map_cord(end.x, end.y)
-                    i = 0
-                    while i < ((cstart_y - cend_y) - self.scale_zone_y - 1):
-                        self.grid[cstart_y - 1 - i][cstart_x + (self.scale_zone_x // 2) - 1] = "|"
-                        i += 1
-                if start_y < end_y:
-                    cstart_x, cstart_y = self.zone_map_cord(start.x, start.y)
-                    cend_x, cend_y = self.zone_map_cord(end.x, end.y)
-                    i = 0
-                    while i < ((cend_y - (start_y + self.scale_zone_y))):
-                        self.grid[cstart_y + self.scale_zone_y + 1 + i][cstart_x + (self.scale_zone_x // 2) - 1] = "|"
-                        i += 1
-            elif start_y == end_y:
-                    for i in range(end_x - start_x):
-                        self.grid[start_y][start_x + i] = "\u2594"
+            path_connection = connection_finder.find_path((start_x, start_y), (end_x, end_y))
+            print(path_connection)
 
-            elif start_y < end_y:
-                self.grid[start_y][start_x] = "\u2594"
-                i = 0
-                while i < end_y - start_y:
-                    self.grid[start_y + i][start_x + i + 1] = "\\"
-                    i += 1
+            for i in range(len(path_connection)):
+                current = path_connection[i]
+                if current is None:
+                    continue
 
-                x = start_x + i + 1
-                while x < end_x:
-                    self.grid[start_y + i][x] = "\u2594"
-                    x += 1
-                    
-            elif end_y < start_y:
-                self.grid[start_y][start_x] = "\u2594"
-                i = 1
-                while i <= start_y - end_y:
-                    self.grid[start_y - i][start_x + i] = "/"
-                    i += 1
+                if i < len(path_connection) - 1:
+                    next_cell = path_connection[i + 1]
+                else:
+                    next_cell = None
 
-                x = start_x + i
-                while x < end_x:
-                    self.grid[end_y][x] = "\u2594"
-                    x += 1
+                if i > 0:
+                    previous = path_connection[i - 1]
+                else:
+                    previous = None
 
+                if previous is None or next_cell is None:
+                    self.grid[current[1]][current[0]] = "\u253C"
+                    continue
+
+                dx1 = current[0] - previous[0]
+                dy1 = current[1] - previous[1]
+
+                dx2 = next_cell[0] - current[0]
+                dy2 = next_cell[1] - current[1]
+                
+
+                if dy1 == 0 and dy2 == 0:
+                    self.grid[current[1]][current[0]] = "─"
+                elif dx1 == 0 and dx2 == 0:
+                    self.grid[current[1]][current[0]] = "│"
+                elif (dx1, dy1, dx2, dy2) in [(-1,0,0,1), (0,-1,1,0)]:
+                    self.grid[current[1]][current[0]] = "┌"
+                elif (dx1, dy1, dx2, dy2) in [(-1,0,0,-1), (0,1,1,0)]:
+                    self.grid[current[1]][current[0]] = "└"
+                elif (dx1, dy1, dx2, dy2) in [(1,0,0,1), (0,-1,-1,0)]:
+                    self.grid[current[1]][current[0]] = "┐"
+                elif (dx1, dy1, dx2, dy2) in [(1,0,0,-1), (0,1,-1,0)]:
+                    self.grid[current[1]][current[0]] = "┘"
+
+        self.draw_visual_zones()
         self.draw_drones(simulation)
-
+        
         for row in self.grid:
             print("".join(row))
+
+    def draw_visual_zones(self) -> None:
+        for zone in self.graph.zones:
+            color_zone = input_config.ANSI_COLORS_NAMES.get(zone.color, 15)
+            color = f"\033[48;5;{color_zone}m"
+            reset = "\033[0m"
+
+            start_x , start_y = self.zone_map_cord(zone.x, zone.y)
+
+            for y in range(self.scale_zone_y):
+                for x in range(self.scale_zone_x):
+                    self.grid[start_y + y][start_x + x] = f"{color} {reset}"
+            i = 0
+            for i in range(len(zone.name)):
+                self.grid[start_y + self.scale_zone_y][start_x + i] = zone.name[i]
+
 
     def draw_drones(self, simulation: Simulation) -> None:
         for drone in simulation.drones:
@@ -244,6 +171,9 @@ class TerminalRenderer:
             drone_y = start_y + self.scale_zone_y // 2
 
             self.grid[drone_y][drone_x - 1] = "D"
-            #self.grid[drone_y][drone_x] = str(len(nb_drones_zone))
-            self.grid[drone_y][drone_x] = str(1)
+
+            nb_drone_str = str(len(nb_drones_zone))
+
+            for i in range(len(nb_drone_str)):
+                self.grid[drone_y][drone_x + i] = nb_drone_str[i]
 
