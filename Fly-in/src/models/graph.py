@@ -48,5 +48,8 @@ class Graph:
     def found_start_zone(self):
         return next(zone for zone in self.zones if zone.start)
 
+    def get_zone(self, name: str) -> Zone:
+        return next((zone for zone in self.zones if zone.name == name), None)
+
 
 

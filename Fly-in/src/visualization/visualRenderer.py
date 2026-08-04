@@ -1,7 +1,8 @@
-from models import Graph, Simulation
+from models import Graph, Simulation, Connection
 from typing import TYPE_CHECKING
 import data.input_config.input_structure as input_config
 from .pathFinder import PathFinder
+import math
 
 
 class TerminalRenderer:
@@ -53,6 +54,15 @@ class TerminalRenderer:
 
         return(connection_x, connection_y)
 
+    def connection_sorter(self, connections: list[Connection]) -> list[Connection]:
+        print(connections)
+        def get_dist(conn: Connection):
+            z1 = self.graph.get_zone(conn.zone1)
+            z2 = self.graph.get_zone(conn.zone2)
+            return math.dist((z1.x, z1.y), (z2.x, z2.y))
+
+        return sorted(connections, key=get_dist, reverse=True)
+
 
     def render(self, simulation: Simulation) -> None:
         self.clear_terminal()
@@ -77,9 +87,13 @@ class TerminalRenderer:
                 self.grid[start_y + self.scale_zone_y][start_x + i] = "S"
 
         zones_by_name = {zone.name: zone for zone in self.graph.zones}
-        connection_finder = PathFinder(self.grid, self.width, self.height)      
 
-        for connection in self.graph.connections:
+        connection_finder = PathFinder(self.grid, self.width, self.height)
+
+        connections_sorted = self.connection_sorter(self.graph.connections)
+        print(connections_sorted)
+
+        for connection in connections_sorted:
             connection_finder.set_grid(self.grid)
             zone1 = zones_by_name[connection.zone1]
             zone2 = zones_by_name[connection.zone2]
