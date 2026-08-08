@@ -13,6 +13,16 @@ zone_types = [
     "priority"
 ]
 
+PATH_CHARS = {
+    "─",
+    "│",
+    "┌",
+    "┐",
+    "└",
+    "┘",
+    "┼"
+}
+
 ANSI_COLORS_NAMES = {
     "black": 0,
     "maroon": 1,

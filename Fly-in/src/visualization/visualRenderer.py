@@ -54,8 +54,47 @@ class TerminalRenderer:
 
         return(connection_x, connection_y)
 
+    def get_all_connection_points(self):
+        blocked_points = []
+        zones_by_name = {zone.name: zone for zone in self.graph.zones}
+
+        for zone in self.graph.zones:
+            blocked_points.extend(self.get_connection_points(zone.x, zone.y))
+
+        return blocked_points
+
+
+
+    def get_connection_points(self, x: int, y: int):
+
+        start_x, start_y = self.zone_map_cord(x, y)
+
+        points = []
+
+        # TOP
+        for i in range(3):
+            x = start_x + i * 2
+            y = start_y - self.scale_zone_y // 2
+
+            points.append((x, y))
+
+        # LEFT
+        for i in range(3):
+            x = start_x - 1
+            y = start_y + i 
+
+            points.append((x, y))
+
+        # RIGHT
+        for i in range(3):
+            x = start_x + self.scale_zone_x
+            y = start_y 
+
+            points.append((x, y))
+
+        return points
+
     def connection_sorter(self, connections: list[Connection]) -> list[Connection]:
-        print(connections)
         def get_dist(conn: Connection):
             z1 = self.graph.get_zone(conn.zone1)
             z2 = self.graph.get_zone(conn.zone2)
@@ -91,26 +130,23 @@ class TerminalRenderer:
         connection_finder = PathFinder(self.grid, self.width, self.height)
 
         connections_sorted = self.connection_sorter(self.graph.connections)
-        print(connections_sorted)
 
         for connection in connections_sorted:
             connection_finder.set_grid(self.grid)
             zone1 = zones_by_name[connection.zone1]
             zone2 = zones_by_name[connection.zone2]
 
-            if zone2.x > zone1.x:
-                start = zone1
-                end = zone2
-            else:
-                start = zone2
-                end = zone1
+            start_points = self.get_connection_points(zone1.x, zone1.y)
+            end_points = self.get_connection_points(zone2.x, zone2.y)
+            all_blocked_points = self.get_all_connection_points()
 
-            start_x, start_y = self.connection_map_cord(start.x, start.y)
-            end_x, end_y = self.connection_map_cord(end.x, end.y)
-            if start.x != end.x:
-                end_x -= self.scale_zone_x +1
+            blocked_points = set(all_blocked_points).difference(start_points, end_points)
 
-            path_connection = connection_finder.find_path((start_x, start_y), (end_x, end_y))
+            path_connection = connection_finder.find_path(start_points, end_points, blocked_points)
+            if path_connection:
+                connection_finder.register_path(path_connection)
+            if path_connection == []:
+                print(f"zone1: {connection.zone1}, zone2: {connection.zone2}")
             print(path_connection)
 
             for i in range(len(path_connection)):
@@ -129,7 +165,7 @@ class TerminalRenderer:
                     previous = None
 
                 if previous is None or next_cell is None:
-                    self.grid[current[1]][current[0]] = "\u253C"
+                    self.grid[current[1]][current[0]] = ":"
                     continue
 
                 dx1 = current[0] - previous[0]
