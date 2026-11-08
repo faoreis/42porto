@@ -17,15 +17,25 @@ class TerminalRenderer:
         self.grid = []
 
     def set_width(self) -> None:
-        max_x = max(self.graph.zones, key=lambda z: z.x)
-        self.width = ((max_x.x) * self.scale_zone_x) + (max_x.x * self.scale_connection) + len(max_x.name)
+        max_x = max(zone.x for zone in self.graph.zones)
+        min_x = min(zone.x for zone in self.graph.zones)
+        span_x = max_x - min_x
+        longest_name = max(len(z.name) for z in self.graph.zones)
+
+        self.width = (span_x + 1) * (self.scale_zone_x + self.scale_connection) + longest_name + 2
 
     def set_height(self) -> None:
-        max_y = max(self.graph.zones, key=lambda z: z.y)
-        if max_y.y == 0:
-            self.height = self.scale_zone_y + self.separator
-        else:
-            self.height = (max_y.y * (self.scale_zone_y)) + (max_y.y  * self.scale_connection) + self.separator  + 1
+        max_needed = 0
+
+        for zone in self.graph.zones:
+            _, start_y = self.zone_map_cord(zone.x, zone.y)
+
+            bottom = start_y + self.scale_zone_y + 1
+            if bottom > max_needed:
+                max_needed = bottom
+
+        self.height = max_needed + 2  # small bottom margin
+
 
     def clear_terminal(self) -> None:
         print("\x1b[2J\x1b[1;1H", end="")
@@ -40,10 +50,10 @@ class TerminalRenderer:
         draw_y = y + offset_y
         
         start_x = draw_x  * (self.scale_zone_x + self.scale_connection)
-        start_y = draw_y  * (self.scale_zone_y)
+        start_y = draw_y  * (self.scale_zone_y + self.separator)
 
-        if start_y > 0:
-            start_y = start_y + (draw_y * self.separator)
+        # if start_y > 0:
+        #     start_y = start_y + (draw_y * self.separator)
 
         return (start_x, start_y)
 
@@ -68,29 +78,21 @@ class TerminalRenderer:
     def get_connection_points(self, x: int, y: int):
 
         start_x, start_y = self.zone_map_cord(x, y)
-
         points = []
 
-        # TOP
-        for i in range(3):
-            x = start_x + i * 2
-            y = start_y - self.scale_zone_y // 2
-
-            points.append((x, y))
-
         # LEFT
-        for i in range(3):
-            x = start_x - 1
-            y = start_y + i 
+        for i in range(self.scale_zone_y):
+            px = start_x - 1
+            py = start_y + i 
 
-            points.append((x, y))
+            points.append((px, py))
 
         # RIGHT
-        for i in range(3):
-            x = start_x + self.scale_zone_x
-            y = start_y 
+        for i in range(self.scale_zone_y):
+            px = start_x + self.scale_zone_x
+            py = start_y + i
 
-            points.append((x, y))
+            points.append((px, py))
 
         return points
 

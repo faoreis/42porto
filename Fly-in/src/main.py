@@ -8,7 +8,7 @@ def main() -> None:
     graph = input_file("data/maps/challenger/01_the_impossible_dream.txt")
     #graph = input_file("data/maps/test/horizontal_test.txt")
     simulation = Simulation(graph)
-    renderer = TerminalRenderer(graph, 6, 12)
+    renderer = TerminalRenderer(graph, 8, 12)
 
     renderer.render(simulation)
     input("Iniciar...")

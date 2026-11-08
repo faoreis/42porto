@@ -69,6 +69,7 @@ class Simulation:
         # Track visited nodes to prevent cycles
         visited = set()
         start_zone =  self.graph.found_start_zone()
+        
         # Initialize FIFO queue with the source node
         queue = deque([start_zone])
         visited.add(start_zone)
