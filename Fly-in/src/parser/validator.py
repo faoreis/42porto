@@ -4,6 +4,9 @@ import data.input_config.input_structure as input_config
 
 
 def ft_validator_nb_drones(line: str) -> int:
+    parts = line.split(":", 1)
+    if len(parts) != 2:
+        raise InputError("nb_drones - Invalid format. Expected 'nb_drones: <number>'", line_number)
     nb_drones = line.split(":", 1)[-1].strip()
     try:
         nbrones = int(nb_drones)
