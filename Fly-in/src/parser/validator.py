@@ -3,35 +3,45 @@ from models import Zone, Connection
 import data.input_config.input_structure as input_config
 
 
-def ft_validator_nb_drones(line: str) -> int:
+def ft_validator_nb_drones(line: str, line_number: int) -> int:
     parts = line.split(":", 1)
     if len(parts) != 2:
         raise InputError("nb_drones - Invalid format. Expected 'nb_drones: <number>'", line_number)
-    nb_drones = line.split(":", 1)[-1].strip()
+    
+    number_part = parts[1].strip()
+    
     try:
-        nbrones = int(nb_drones)
+        nbrones = int(number_part)
     except ValueError as error:
-        raise InputError(f"nb_drones - {error}")
+        raise InputError(f"nb_drones '{number_part}' is not a valid number, {error}", line_number)
 
     if nbrones <= 0:
-        raise InputError("nb_drones - The number of drones must be greater than 0")
+        raise InputError("nb_drones - The number of drones must be greater than 0", line_number)
 
     return nbrones
 
 
-def ft_valid_name(name: str) -> str:
-    if "-" in name.strip() or name.strip() == "":
-        raise InputError("Zone name cannot be empty or contain spaces or dashes")
-    return name.strip()
+def ft_valid_name(name: str, line_number: int) -> str:
+    name_clean = name.strip()
+
+    if not name_clean:
+        raise InputError(f"Zone name '{name_clean}' cannot be empty", line_number)
+
+    if "-" in name_clean:
+        raise InputError(f"Zone name '{name_clean}' cannot contain dashes", line_number)
+
+    if " " in name_clean:
+        raise InputError(f"Zone name '{name_clean}' cannot contain spaces", line_number)
+
+    return name_clean
 
 
-def ft_validator_metadata_zone(metadata: str) -> tuple[str, int, str]:
-    metadata_params = metadata.split(" ")
+def ft_validator_metadata_zone(metadata: str, line_number: int) -> tuple[str, int, str]:
     color = None
     max_drones = 1
     type_zone = "normal"
 
-    for param in metadata_params:
+    for param in metadata.split(" "):
         if param.startswith("color="):
             color = param.split("=")[-1].lower()
         elif param.startswith("max_drones="):
