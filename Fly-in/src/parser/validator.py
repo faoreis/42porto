@@ -5,6 +5,7 @@ import data.input_config.input_structure as input_config
 
 def ft_validator_nb_drones(line: str, line_number: int) -> int:
     parts = line.split(":", 1)
+
     if len(parts) != 2:
         raise InputError("nb_drones - Invalid format. Expected 'nb_drones: <number>'", line_number)
     
@@ -42,17 +43,37 @@ def ft_validator_metadata_zone(metadata: str, line_number: int) -> tuple[str, in
     type_zone = "normal"
 
     for param in metadata.split(" "):
-        if param.startswith("color="):
-            color = param.split("=")[-1].lower()
-        elif param.startswith("max_drones="):
+
+        if not param or "=" not in param:
+            raise InputError(f"Invalid metadata format: '{param}'. Expepted 'key=value'", line_number)
+
+        key, _, value = param.partition("=")
+        key = key.strip().lower()
+        value = value.strip()
+
+        if key == "color":
+            if not value or " " in value:
+                raise InputError("color value cannot be empty or contain spaces", line_number)
+
+            color = value.lower()
+
+        elif key == "max_drones":
             try:
-                max_drones = int(param.split("=")[-1])
+                max_drones = int(value)
             except ValueError as error:
-                raise InputError(f"max_drones - {error}")
-        elif param.startswith("zone="):
-            type_zone = param.split("=")[-1]
-            if type_zone not in input_config.zone_types:
-                raise InputError(f"zone - Invalid zone type: {type_zone}.")
+                raise InputError(f"Invalid metadata max_drones - {error}", line_number)
+
+            if max_drones <= 0:
+                raise InputError("Invalid metadata max_drones- The number of drones must be greater than 0", line_number)
+
+        elif key == "zone":
+            if value not in input_config.zone_types:
+                raise InputError(f"Invalid metadata zone - Invalid zone type: {type_zone}.")
+
+            type_zone = value
+
+        else:
+            raise InputError(f"Invalid metadata '{param}'. Expected 'color', 'max_drones', or 'zone'", line_number)
             
     return (color, max_drones, type_zone)
 
