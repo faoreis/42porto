@@ -34,16 +34,16 @@ class Zone:
 
 
 class Connection:
-    def __init__(self, zone1: str, zone2: str, max_connections: int):
+    def __init__(self, zone1: str, zone2: str, max_link_capacity: int):
         self.zone1 = zone1
         self.zone2 = zone2
-        self.max_connections = max_connections
+        self.max_link_capacity = max_link_capacity
 
     def __eq__(self, other):
         return (self.zone1 == other.zone1 and self.zone2 == other.zone2)
 
     def print_connection(self):
-        print(f"Connection: {self.zone1} -> {self.zone2}, Max Connections: {self.max_connections}")
+        print(f"Connection: {self.zone1} -> {self.zone2}, Max Link Capacity: {self.max_link_capacity}")
 
 
 class Graph:
@@ -60,6 +60,15 @@ class Graph:
 
     def get_zone(self, name: str) -> Zone:
         return next((zone for zone in self.zones if zone.name == name), None)
+
+    def movement_cost(self, destination: Zone) -> float | None:
+        if destination.type_zone == "blocked":
+            return None
+        if destination.type_zone == "restricted":
+            return 2.0
+        if destination.type_zone == "priority":
+            return 0.999
+        return 1.0
 
 
 

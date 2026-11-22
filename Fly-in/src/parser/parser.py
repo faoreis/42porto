@@ -30,6 +30,8 @@ def ft_valid_input(inputlines: list[str]) -> None:
     connections = []
 
     for line_number, line in inputlines:
+        zones_names = [zone.name for zone in zones]
+
         if line.startswith("nb_drones:"):
             if nbdrones is not None:
                 raise InputError("More than one nb_drones", line_number)
@@ -38,29 +40,42 @@ def ft_valid_input(inputlines: list[str]) -> None:
         
         if line.startswith("start_hub:"):
             if start_hub:
-                raise InputError("More than one start_hub")
+                raise InputError("More than one start_hub", line_number)
+            
             startzone = ft_validator_zone(line, line_number ,start=True)
+
+            if startzone.name in zones_names:
+                raise InputError(f"Zone {startzone.name} already exists", line_number)  
+            
+            startzone.max_drones = None
             zones.append(startzone)
             start_hub = True
             continue
         
         if line.startswith("end_hub:"):
             if end_hub:
-                raise InputError("More than one end_hub")
+                raise InputError("More than one end_hub", line_number)
+            
             endzone = ft_validator_zone(line, line_number, end=True)
+
+            if endzone.name in zones_names:
+                raise InputError(f"Zone {endzone.name} already exists", line_number)
+            
+            endzone.max_drones = None
             zones.append(endzone)
             end_hub = True
             continue
 
         if line.startswith("hub:"):
             hub = ft_validator_zone(line, line_number)
-            if hub.name in zones:
+
+            if hub.name in zones_names:
                 raise InputError(f"Zone {hub.name} already exists", line_number)
             zones.append(hub)
             continue
         
         if line.startswith("connection:"):
-            connection = ft_validator_connection(line, zones)
+            connection = ft_validator_connection(line, zones, line_number)
             isValid = ft_connection_exists(connection, connections)
             if not isValid:
                 raise InputError(f"Connection: {connection.zone1}-{connection.zone2} - Already exists", line_number)
