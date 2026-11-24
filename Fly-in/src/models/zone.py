@@ -1,0 +1,32 @@
+class Zone:
+    def __init__(
+        self,
+        name: str,
+        x: int,
+        y: int,
+        start: bool = False,
+        end: bool = False,
+        color: str = None,
+        max_drones: int = 1,
+        type_zone: str = "normal"
+    ) -> None:
+        self.name = name
+        self.x = x
+        self.y = y
+        self.start = start
+        self.end = end
+        self.color = color
+        self.max_drones = max_drones
+        self.type_zone = type_zone
+
+    def set_start(self, start: bool):
+        self.start = start
+    
+    def set_end(self, end: bool):
+        self.end = end
+    
+    def print_zone(self):
+        print(f"Zone: {self.name}, Coordinates: ({self.x}, {self.y}), Start: {self.start}, End: {self.end}, Color: {self.color}, Max Drones: {self.max_drones}, Type: {self.type_zone}")
+
+    def get_max_drones(self) -> int:
+        return self.max_drones

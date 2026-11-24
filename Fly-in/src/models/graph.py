@@ -1,50 +1,5 @@
-
-class Zone:
-    def __init__(
-        self,
-        name: str,
-        x: int,
-        y: int,
-        start: bool = False,
-        end: bool = False,
-        color: str = None,
-        max_drones: int = 1,
-        type_zone: str = "normal"
-    ) -> None:
-        self.name = name
-        self.x = x
-        self.y = y
-        self.start = start
-        self.end = end
-        self.color = color
-        self.max_drones = max_drones
-        self.type_zone = type_zone
-
-    def set_start(self, start: bool):
-        self.start = start
-    
-    def set_end(self, end: bool):
-        self.end = end
-    
-    def print_zone(self):
-        print(f"Zone: {self.name}, Coordinates: ({self.x}, {self.y}), Start: {self.start}, End: {self.end}, Color: {self.color}, Max Drones: {self.max_drones}, Type: {self.type_zone}")
-
-    def get_max_drones(self) -> int:
-        return self.max_drones
-
-
-class Connection:
-    def __init__(self, zone1: str, zone2: str, max_link_capacity: int):
-        self.zone1 = zone1
-        self.zone2 = zone2
-        self.max_link_capacity = max_link_capacity
-
-    def __eq__(self, other):
-        return (self.zone1 == other.zone1 and self.zone2 == other.zone2)
-
-    def print_connection(self):
-        print(f"Connection: {self.zone1} -> {self.zone2}, Max Link Capacity: {self.max_link_capacity}")
-
+from .connection import Connection
+from .zone import Zone
 
 class Graph:
     def __init__(self, nb_drones: int, zones: list[Zone], connections: list[Connection]):
@@ -58,6 +13,9 @@ class Graph:
     def found_start_zone(self):
         return next(zone for zone in self.zones if zone.start)
 
+    def found_end_zone(self):
+        return next(zone for zone in self.zones if zone.end)
+
     def get_zone(self, name: str) -> Zone:
         return next((zone for zone in self.zones if zone.name == name), None)
 
@@ -69,6 +27,20 @@ class Graph:
         if destination.type_zone == "priority":
             return 0.999
         return 1.0
+
+    def build_adjacency(self) -> dict[str, list[tuple[Zone, Connection]]]:
+        zone_name = {z.name: z for z in self.zones}
+
+        adj: dict[str, list[tuple[Zone, Connection]]] = {z.name: [] for z in self.zones}
+
+        for conn in self.connections:
+            z1 = zone_name.get(conn.zone1)
+            z2 = zone_name.get(conn.zone2)
+            if z1 is None or z2 is None:
+                continue
+            adj[z1.name].append((z2, conn))
+            adj[z2.name].append((z1, conn))
+        return adj
 
 
 
