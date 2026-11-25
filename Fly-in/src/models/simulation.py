@@ -1,4 +1,5 @@
 from .graph import Graph, Zone
+from .pathfinding import PathFinder
 from .drone import Drone
 from collections import deque
 
@@ -42,12 +43,25 @@ class Simulation:
 
         return neighbors
 
-    def prepare(self):
-        path = self.bfs()
+
+    def prepare(self) -> None:
+        finder = PathFinder(self.graph)
+        path = finder.find_path()
+
+        if not path:
+            raise RuntimeError("No path from start to end")
 
         for drone in self.drones:
-            drone.path = path
+            drone.path = path          # por agora o mesmo path; multi-path depois
             drone.index = 0
+            drone.finished = False
+
+    # def prepare(self):
+    #     path = self.bfs()
+
+    #     for drone in self.drones:
+    #         drone.path = path
+    #         drone.index = 0
 
     def step(self):
 
