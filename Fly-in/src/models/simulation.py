@@ -71,13 +71,15 @@ class Simulation:
                 continue
 
             next_zone = drone.path[drone.index + 1]
-
-            if next_zone.get_max_drones() > len(self.drones_in_zone(next_zone)) or next_zone.end:
+            next_zone_drones = self.drones_in_zone(next_zone)
+            if next_zone.end:
+                self.move_drone(drone, next_zone)
+                drone.index += 1
+                drone.finished = True
+            elif next_zone.get_max_drones() > len(self.drones_in_zone(next_zone)):
                 self.move_drone(drone, next_zone)
                 drone.index += 1
 
-            if next_zone.end:
-                drone.finished = True
 
     def bfs(self):
         # Track visited nodes to prevent cycles

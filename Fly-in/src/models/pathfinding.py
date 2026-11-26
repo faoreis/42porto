@@ -7,7 +7,7 @@ from heapq import heappop, heappush
 class PathFinder:
     def __init__(self, graph: Graph):
         self.graph = graph
-        self.adjacency_list = self.build_adjacency_list()
+        self.adjacency_list = self.graph.build_adjacency()
 
     def find_path(self) -> list[Zone]:
         start_zone = self.graph.found_start_zone()
@@ -16,7 +16,6 @@ class PathFinder:
         if start_zone is None or end_zone is None:
             return []
 
-        # Dijkstra: (cost, counter, zone_name)
         pq: list[tuple[float, int, str]] = []
         counter = 0
         heappush(pq, (0.0, counter, start_zone.name))
@@ -31,7 +30,7 @@ class PathFinder:
             if name == end_zone.name:
                 return self._reconstruct(parent, end_zone.name)
 
-            for neighbor, _conn in self.adj.get(name, []):
+            for neighbor, _conn in self.adjacency_list.get(name, []):
                 step = self.graph.movement_cost(neighbor)
                 if step is None:
                     continue  # blocked
