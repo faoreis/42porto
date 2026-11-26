@@ -147,9 +147,9 @@ class TerminalRenderer:
             path_connection = connection_finder.find_path(start_points, end_points, blocked_points)
             if path_connection:
                 connection_finder.register_path(path_connection)
-            if path_connection == []:
-                print(f"zone1: {connection.zone1}, zone2: {connection.zone2}")
-            print(path_connection)
+            # if path_connection == []:
+            #     print(f"zone1: {connection.zone1}, zone2: {connection.zone2}")
+            # print(path_connection)
 
             for i in range(len(path_connection)):
                 current = path_connection[i]

@@ -7,17 +7,31 @@ class Graph:
         self.zones = zones
         self.connections = connections
 
+
     def add_zone(self, zone: Zone):
         self.zones.append(zone)
+
 
     def found_start_zone(self):
         return next(zone for zone in self.zones if zone.start)
 
+
     def found_end_zone(self):
         return next(zone for zone in self.zones if zone.end)
 
+
     def get_zone(self, name: str) -> Zone:
         return next((zone for zone in self.zones if zone.name == name), None)
+    
+
+    def get_connection(self, name_a: str, name_b: str) -> Connection:
+        for conn in self.connections:
+            if (conn.zone1 == name_a and conn.zone2 == name_b) or (
+                conn.zone1 == name_b and conn.zone2 == name_a
+            ):
+                return conn
+        return None
+
 
     def movement_cost(self, destination: Zone) -> float | None:
         if destination.type_zone == "blocked":

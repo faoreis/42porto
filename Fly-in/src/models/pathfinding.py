@@ -1,4 +1,3 @@
-from asyncio import graph
 from typing import Optional
 from .graph import Graph
 from .zone import Zone
@@ -42,6 +41,9 @@ class PathFinder:
                     parent[nname] = name
                     counter += 1
                     heappush(pq, (new_cost, counter, nname))
+        
+        return []
+
 
     def _reconstruct(self, parent: dict[str, Optional[str]], goal_name: str) -> list[Zone]:
         names: list[str] = []

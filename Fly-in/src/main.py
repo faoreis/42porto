@@ -15,10 +15,18 @@ def main() -> None:
     simulation.prepare()
 
     while not simulation.finished():
-        simulation.step()
+        tokens = simulation.step()
+
+        if tokens:
+            print(" ".join(tokens))
 
         renderer.render(simulation)
         input()
+
+    print(f"\nTerminado em {simulation.turn} turns.")
+    print("--- Histórico ---")
+    for line in simulation.history:
+        print(line)
 
     #Teste mover automatico
     # drone = simulation.drones[0]
